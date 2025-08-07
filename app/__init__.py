@@ -9,6 +9,14 @@ from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .seeds import seed_commands
 from .config import Config
+from .api.store_routes import store_routes
+from .api.product_routes import product_routes
+from .api.public_routes import public_routes
+from .api.order_routes import order_routes
+from flask import send_from_directory
+from .api.image_routes import image_routes
+from .api.review_routes import review_routes
+from .models import db 
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 
@@ -28,6 +36,12 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.register_blueprint(store_routes, url_prefix='/api/store')
+app.register_blueprint(product_routes, url_prefix='/api/products')
+app.register_blueprint(public_routes, url_prefix='/api/public')
+app.register_blueprint(order_routes, url_prefix='/api/orders')
+app.register_blueprint(image_routes, url_prefix='/api/images')
+app.register_blueprint(review_routes, url_prefix='/api/reviews')
 db.init_app(app)
 Migrate(app, db)
 
@@ -84,6 +98,12 @@ def react_root(path):
     if path == 'favicon.ico':
         return app.send_from_directory('public', 'favicon.ico')
     return app.send_static_file('index.html')
+
+@app.route('/uploads/<path:filename>')
+def uploaded_file(filename):
+    """Serve uploaded files from the uploads directory."""
+
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
 @app.errorhandler(404)
