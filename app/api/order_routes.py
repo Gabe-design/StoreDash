@@ -4,6 +4,7 @@ from flask import Blueprint, request
 from flask_login import login_required, current_user
 from ..models import db, Store, Order, Product
 from ..forms.order_form import OrderForm
+from ..forms.order_create_form import OrderCreateForm
 
 order_routes = Blueprint('orders', __name__)
 
@@ -21,10 +22,8 @@ def get_orders():
 
 @order_routes.route('', methods=['POST'])
 def create_order():
-    """Public: Create a new order for a store. (No login required)"""
 
-    form = OrderForm()
-    form['csrf_token'].data = request.cookies.get('csrf_token', '')
+    """Public: Create a new order for a store. (No login required)"""
 
     data = request.get_json() or {}
     store_id = data.get('store_id')
@@ -33,22 +32,29 @@ def create_order():
     if not store:
         return {'errors': {'message': 'Store not found.'}}, 404
 
+    form = OrderCreateForm(data=data)
+    form['csrf_token'].data = request.cookies.get('csrf_token', '')
+
     if form.validate_on_submit():
-        product_ids = [int(pid.strip()) for pid in (form.data['product_ids'].split(',')) if pid.strip().isdigit()]
+        product_ids = data.get('products', [])
+        if not isinstance(product_ids, list) or not all(isinstance(pid, int) for pid in product_ids):
+            return {'errors': {'message': 'Products must be a list of integers.'}}, 400
+
         products = Product.query.filter(Product.id.in_(product_ids), Product.store_id == store.id).all()
-        if not products or len(products) != len(product_ids):
+        if len(products) != len(product_ids):
             return {'errors': {'message': 'Some products not found for this store.'}}, 400
 
         order = Order(
             store_id=store.id,
             buyer_name=form.data['buyer_name'],
             buyer_email=form.data['buyer_email'],
-            status=form.data.get('status') or 'pending'
+            status='pending'
         )
         order.products = products
         db.session.add(order)
         db.session.commit()
-        return {'orders': order.to_dict()}
+        return {'order': order.to_dict()}, 201
+
     return {'errors': form.errors}, 400
 
 @order_routes.route('/<int:id>', methods=['GET'])
