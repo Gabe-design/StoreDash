@@ -1,7 +1,7 @@
 # app/api/product_routes.py
 
 from flask import Blueprint, request
-from ..models import db, Store, Product, Order
+from ..models import db, Store, Tag, Product, Order
 
 public_routes = Blueprint('public', __name__)
 
