@@ -21,7 +21,9 @@ class Order(db.Model):
     buyer_name = db.Column(db.String(100), nullable=False)
     buyer_email = db.Column(db.String(255), nullable=False)  
     total_price = db.Column(db.Float, nullable=False)
+    status = db.Column(db.String(32), nullable=False, default='pending')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     user = db.relationship('User', backref=db.backref('orders', lazy=True))
     store = db.relationship('Store', backref=db.backref('orders', lazy=True))
@@ -35,6 +37,7 @@ class Order(db.Model):
             'buyer_name': self.buyer_name,
             'buyer_email': self.buyer_email,
             'total_price': self.total_price,
+            'status': self.status,
             'created_at': self.created_at.isoformat(),
             'products': [product.to_dict() for product in self.products]
         }
