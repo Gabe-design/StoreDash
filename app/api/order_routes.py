@@ -4,7 +4,9 @@ from flask import Blueprint, request
 from flask_login import login_required, current_user
 from ..models import db, Store, Order, Product
 from ..forms.order_form import OrderForm
-from ..forms.order_create_form import OrderCreateForm
+# from ..forms.order_create_form import OrderCreateForm
+from ..forms.order_update_form import OrderUpdateForm
+
 
 order_routes = Blueprint('orders', __name__)
 
@@ -80,13 +82,14 @@ def update_order(id):
     if not order or not store or order.store_id != store.id:
         return {'errors': {'message': 'Order not found.'}}, 404
 
-    form = OrderForm()
+    form = OrderUpdateForm()
     form['csrf_token'].data = request.cookies.get('csrf_token', '')
 
     if form.validate_on_submit():
-        order.status = form.data.get('status') or order.status
+        order.status = form.data['status']
         db.session.commit()
         return {'orders': order.to_dict()}
+    
     return {'errors': form.errors}, 400
 
 @order_routes.route('/<int:id>', methods=['DELETE'])
