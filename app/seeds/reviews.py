@@ -4,8 +4,9 @@ from app.models import db, Review, Product, environment, SCHEMA
 from sqlalchemy.sql import text
 from datetime import datetime
 
+# This function will seed the reviews
 def seed_reviews():
-    # Get products to review
+    # This will get the products to review
     summer_tee = Product.query.filter_by(title="Summer Tee").first()
     coffee_mug = Product.query.filter_by(title="Ceramic Coffee Mug").first()
     graphic_tee = Product.query.filter_by(title="Graphic Tee").first()
@@ -40,6 +41,7 @@ def seed_reviews():
     db.session.add_all([review1, review2, review3])
     db.session.commit()
 
+# This function will undo the reviews
 def undo_reviews():
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.reviews RESTART IDENTITY CASCADE;")

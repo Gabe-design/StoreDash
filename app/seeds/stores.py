@@ -3,6 +3,7 @@
 from app.models import db, Store, environment, SCHEMA
 from sqlalchemy.sql import text
 
+# This function will seed the stores
 def seed_stores():
     store1 = Store(
         user_id=1,
@@ -32,6 +33,7 @@ def seed_stores():
     db.session.add_all([store1, store2, store3])
     db.session.commit()
 
+# This function will undo the stores
 def undo_stores():
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.stores RESTART IDENTITY CASCADE;")

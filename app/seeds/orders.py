@@ -4,13 +4,14 @@ from app.models import db, Order, Product, environment, SCHEMA
 from sqlalchemy.sql import text
 from datetime import datetime
 
+# This function will seed the orders
 def seed_orders():
-    # Fetch products from DB so we can attach them to orders
+    # This will fetch products from DB so we can attach them to orders
     summer_tee = Product.query.filter_by(title="Summer Tee").first()
     coffee_mug = Product.query.filter_by(title="Ceramic Coffee Mug").first()
     graphic_tee = Product.query.filter_by(title="Graphic Tee").first()
 
-    # Example orders
+    # Thnis are the example orders
     order1 = Order(
         user_id=1,
         store_id=1,
@@ -22,7 +23,7 @@ def seed_orders():
     order1.products.append(summer_tee)
 
     order2 = Order(
-        user_id=None,  # guest checkout
+        user_id=None, 
         store_id=2,
         buyer_name="Bob",
         buyer_email="bob@example.com",
@@ -30,7 +31,7 @@ def seed_orders():
         created_at=datetime.utcnow()
     )
     order2.products.append(coffee_mug)
-    # order2.products.append(coffee_mug)  # quantity 2
+    # order2.products.append(coffee_mug)  # This will be a quantity of 2
 
     order3 = Order(
         user_id=2,
@@ -46,6 +47,7 @@ def seed_orders():
     db.session.add_all([order1, order2, order3])
     db.session.commit()
 
+# This will undo the orders by truncating the order_products table and orders table
 def undo_orders():
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.order_products RESTART IDENTITY CASCADE;")
