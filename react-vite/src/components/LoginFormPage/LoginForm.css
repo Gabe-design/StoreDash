@@ -1,0 +1,123 @@
+.login-page {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9fafb;
+    padding: 16px;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 448px;
+}
+
+.login-logo {
+    display: block;
+    margin: 0 auto;
+    height: 48px;
+}
+
+.login-title {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.login-subtitle {
+    margin-top: 8px;
+    text-align: center;
+    font-size: 14px;
+    color: #4b5563;
+}
+
+.login-form {
+    margin-top: 32px;
+}
+
+.login-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.login-input {
+    margin-top: 4px;
+    display: block;
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.login-input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 1px #6366f1;
+}
+
+.login-button {
+    width: 100%;
+    border-radius: 6px;
+    background-color: #4f46e5;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    margin-top: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.login-button:disabled {
+    background-color: #d1d5db;
+    cursor: not-allowed;
+}
+
+.demo-button {
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background-color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+.demo-button:hover {
+    background-color: #f3f4f6;
+}
+
+.login-footer {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.login-footer a {
+    font-weight: 500;
+    color: #4f46e5;
+    text-decoration: none;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+.login-error {
+    color: red;
+    font-size: 12px;
+}
+
+.login-error-list {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 8px;
+}

@@ -22,11 +22,11 @@ export const thunkAuthenticate = () => async (dispatch) => {
 	}
 };
 
-export const thunkLogin = (credentials) => async dispatch => {
+export const thunkLogin = ({email, password}) => async dispatch => {
   const response = await fetch("/api/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(credentials)
+    body: JSON.stringify({email, password})
   });
 
   if(response.ok) {
@@ -40,11 +40,11 @@ export const thunkLogin = (credentials) => async dispatch => {
   }
 };
 
-export const thunkSignup = (user) => async (dispatch) => {
+export const thunkSignup = ({email, password}) => async (dispatch) => {
   const response = await fetch("/api/auth/signup", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(user)
+    body: JSON.stringify({email, password})
   });
 
   if(response.ok) {
