@@ -20,6 +20,9 @@ from .models import db
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 
+# This print statement is for debugging purposes and mainly to confirm the flask app is running
+print("Dunder Name:", __name__)
+
 # Setup login manager
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
@@ -34,15 +37,25 @@ def load_user(id):
 app.cli.add_command(seed_commands)
 
 app.config.from_object(Config)
+# This will register the user routes for user management
 app.register_blueprint(user_routes, url_prefix='/api/users')
+# This will register the auth routes for login, logout, and signup
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+# This will register the store routes for store management
 app.register_blueprint(store_routes, url_prefix='/api/store')
+# This will register the product routes for product management
 app.register_blueprint(product_routes, url_prefix='/api/products')
+# This will register the public routes for public access to stores and products
 app.register_blueprint(public_routes, url_prefix='/api/public')
+# This will register the order routes for order management
 app.register_blueprint(order_routes, url_prefix='/api/orders')
+# This will register the image routes for image management
 app.register_blueprint(image_routes, url_prefix='/api/images')
+# This will register the review routes for product reviews
 app.register_blueprint(review_routes, url_prefix='/api/reviews')
+# This will protect the app with CSRF protection
 db.init_app(app)
+
 Migrate(app, db)
 
 # Application Security

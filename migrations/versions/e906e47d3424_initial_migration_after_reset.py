@@ -1,8 +1,8 @@
-"""Initial migration
+"""Initial migration after reset
 
-Revision ID: ced281385542
-Revises: ffdc0a98111c
-Create Date: 2025-08-06 21:12:51.520530
+Revision ID: e906e47d3424
+Revises: 
+Create Date: 2025-08-08 22:07:24.491352
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'ced281385542'
-down_revision = 'ffdc0a98111c'
+revision = 'e906e47d3424'
+down_revision = None
 branch_labels = None
 depends_on = None
 
@@ -23,6 +23,13 @@ def upgrade():
     sa.Column('name', sa.String(length=50), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
+    )
+    op.create_table('users',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('email', sa.String(length=255), nullable=False),
+    sa.Column('hashed_password', sa.String(length=255), nullable=False),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('email')
     )
     op.create_table('stores',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -42,7 +49,9 @@ def upgrade():
     sa.Column('buyer_name', sa.String(length=100), nullable=False),
     sa.Column('buyer_email', sa.String(length=255), nullable=False),
     sa.Column('total_price', sa.Float(), nullable=False),
+    sa.Column('status', sa.String(length=32), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['store_id'], ['stores.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -94,5 +103,6 @@ def downgrade():
     op.drop_table('products')
     op.drop_table('orders')
     op.drop_table('stores')
+    op.drop_table('users')
     op.drop_table('tags')
     # ### end Alembic commands ###
