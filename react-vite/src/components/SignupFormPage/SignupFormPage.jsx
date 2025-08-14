@@ -1,20 +1,21 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate, Link } from "react-router-dom";
+import { Navigate, useNavigate, Link, useLocation } from "react-router-dom";
 import { thunkSignup } from "../../redux/session";
 import "./SignupForm.css";
 // Dont forget to add the logo image
-
 
 function SignupFormPage() {
   // This will initialize the dispatch function for Redux actions
   const dispatch = useDispatch();
   // This will initialize the navigation function for redirecting users
   const navigate = useNavigate();
+  // This will get the current location object from the router
+  const location = useLocation();
   // This will get the currently logged-in user from the Redux store
   const sessionUser = useSelector((state) => state.session.user);
-  // This will store the user's email input
-  const [email, setEmail] = useState("");
+  // This will store the user's email input (prefilled if passed from Landing Page)
+  const [email, setEmail] = useState(location.state?.email || "");
   // This will store the user's password input
   const [password, setPassword] = useState("");
   // This will store the user's confirm password input

@@ -1,13 +1,19 @@
 // src/components/Sidebar/Sidebar.jsx
 
 import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { thunkLogout } from "../../redux/session";
 import "./Sidebar.css";
 
 export default function Sidebar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // This will get the current logged-in user from the Redux store
+  const sessionUser = useSelector((state) => state.session.user);
+
+  // This will get the store name from the user object or fallback to a placeholder
+  const storeName = sessionUser?.storeName || "my-store";
 
   const handleLogout = async () => {
     await dispatch(thunkLogout());
@@ -21,11 +27,11 @@ export default function Sidebar() {
       </div>
 
       <nav className="sidebar-nav">
-        <NavLink to="/dashboard" className="sidebar-link">
-          Dashboard Home
+        <NavLink to={`/store/${storeName}`} className="sidebar-link">
+          View Store
         </NavLink>
         <NavLink to="/dashboard/store" className="sidebar-link">
-          Store Settings
+          Customize Store
         </NavLink>
         <NavLink to="/dashboard/products" className="sidebar-link">
           Products

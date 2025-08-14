@@ -19,8 +19,8 @@ function LoginFormPage() {
   // This will store any errors returned from the server
   const [errors, setErrors] = useState({});
 
-  // If the user is already logged in, this will redirect them to the home page
-  if (sessionUser) return <Navigate to="/" replace={true} />;
+  // If the user is already logged in, this will redirect them to the Dashboard page
+  if (sessionUser) return <Navigate to="/dashboard" replace={true} />;
 
   // This will handle the login form submission
   const handleSubmit = async (e) => {
@@ -38,8 +38,8 @@ function LoginFormPage() {
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
-      // If the login is successful, this will navigate the user to the home page
-      navigate("/");
+      // If the login is successful, this will navigate the user to the Dashboard page
+      navigate("/dashboard");
     }
   };
 

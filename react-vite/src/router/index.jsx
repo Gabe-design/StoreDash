@@ -22,7 +22,7 @@ import PublicOrderForm from '../components/PublicOrderForm/PublicOrderForm';
 import PublicReviewList from '../components/PublicReviewList/PublicReviewList';
 import PublicReviewForm from '../components/PublicReviewForm/PublicReviewForm';
 
-const LandingPage = () => <h1>Welcome!</h1>;
+import LandingPage from '../components/LandingPage/LandingPage';
 
 export const router = createBrowserRouter([
   {
