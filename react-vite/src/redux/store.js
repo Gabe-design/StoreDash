@@ -5,13 +5,27 @@ import {
   combineReducers,
 } from "redux";
 import thunk from "redux-thunk";
+
 import sessionReducer from "./session";
+import storeReducer from "./storeSettings";
+import productsReducer from "./products";
+import ordersReducer from "./orders";
+import reviewsReducer from "./reviews";
+import imagesReducer from "./images";
+import usersReducer from "./users";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
+  store: storeReducer,
+  products: productsReducer,
+  orders: ordersReducer,
+  reviews: reviewsReducer,
+  images: imagesReducer,
+  users: usersReducer,
 });
 
 let enhancer;
+
 if (import.meta.env.MODE === "production") {
   enhancer = applyMiddleware(thunk);
 } else {

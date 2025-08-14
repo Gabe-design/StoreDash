@@ -112,7 +112,7 @@ function LoginFormPage() {
 
           {/* This will display a link to the signup page for users who do not have an account */}
           <p className="login-footer">
-            Don't have an account?{" "}
+            {`Don't have an account?`}{" "}
             <Link to="/signup">Sign Up</Link>
           </p>
         </form>
