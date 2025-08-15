@@ -5,6 +5,7 @@ import ProtectedRoute from './ProtectedRoute';
 // These are the authentication
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
+import LandingPage from '../components/LandingPage/LandingPage';
 
 // These are the dashboard pages
 import DashboardHome from '../components/DashBoard/DashboardHome';
@@ -22,7 +23,7 @@ import PublicOrderForm from '../components/PublicOrderForm/PublicOrderForm';
 import PublicReviewList from '../components/PublicReviewList/PublicReviewList';
 import PublicReviewForm from '../components/PublicReviewForm/PublicReviewForm';
 
-import LandingPage from '../components/LandingPage/LandingPage';
+
 
 export const router = createBrowserRouter([
   {
