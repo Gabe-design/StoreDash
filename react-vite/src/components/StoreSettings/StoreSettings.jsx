@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { thunkGetMyStore, thunkUpdateMyStore, thunkDeleteMyStore } from "../../redux/storeSettings";
+// import Sidebar from "../Sidebar/Sidebar";
 import "./StoreSettings.css";
 
 function StoreSettings() {
@@ -124,105 +125,111 @@ function StoreSettings() {
   };
 
   return (
-    <div className="store-settings-page">
-      <h2 className="store-settings-title">Store Customization</h2>
+    <div className="dashboard-layout">
+      {/* Sidebar
+      <Sidebar /> */}
 
-      <form onSubmit={handleSubmit} className="store-settings-form">
-        {/* Store Name */}
-        <label className="store-settings-label">
-          Store name
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="store-settings-input"
-            placeholder="Store name"
-            required
-          />
-        </label>
-        {errors.name && <p className="store-settings-error">{errors.name}</p>}
+      {/* Main customization content */}
+      <main className="dashboard-main">
+        <h2 className="store-settings-title">Store Customization</h2>
 
-        {/* Logo URL */}
-        <label className="store-settings-label">
-          Logo upload (URL)
-          <input
-            type="text"
-            name="logo_url"
-            value={formData.logo_url}
-            onChange={handleChange}
-            className="store-settings-input"
-            placeholder="Image URL"
-          />
-        </label>
+        <form onSubmit={handleSubmit} className="store-settings-form">
+          {/* Store Name */}
+          <label className="store-settings-label">
+            Store name
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="store-settings-input"
+              placeholder="Store name"
+              required
+            />
+          </label>
+          {errors.name && <p className="store-settings-error">{errors.name}</p>}
 
-        {/* File Upload */}
-        <label className="store-settings-label">
-          Or choose file
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleLogoFile}
-            className="store-settings-file"
-          />
-        </label>
+          {/* Logo URL */}
+          <label className="store-settings-label">
+            Logo upload (URL)
+            <input
+              type="text"
+              name="logo_url"
+              value={formData.logo_url}
+              onChange={handleChange}
+              className="store-settings-input"
+              placeholder="Image URL"
+            />
+          </label>
 
-        {/* Logo Preview */}
-        {logoPreview && (
-          <img
-            src={logoPreview}
-            alt="Store Logo Preview"
-            className="store-settings-logo-preview"
-          />
-        )}
+          {/* File Upload */}
+          <label className="store-settings-label">
+            Or choose file
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleLogoFile}
+              className="store-settings-file"
+            />
+          </label>
 
-        {/* Theme Color */}
-        <label className="store-settings-label">
-          Theme color
-          <input
-            type="color"
-            name="theme_color"
-            value={formData.theme_color}
-            onChange={handleChange}
-            className="store-settings-color"
-          />
-        </label>
+          {/* Logo Preview */}
+          {logoPreview && (
+            <img
+              src={logoPreview}
+              alt="Store Logo Preview"
+              className="store-settings-logo-preview"
+            />
+          )}
 
-        {/* Description */}
-        <label className="store-settings-label">
-          Description
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            className="store-settings-textarea"
-            placeholder="Description"
-          />
-        </label>
-        {errors.description && (
-          <p className="store-settings-error">{errors.description}</p>
-        )}
+          {/* Theme Color */}
+          <label className="store-settings-label">
+            Theme color
+            <input
+              type="color"
+              name="theme_color"
+              value={formData.theme_color}
+              onChange={handleChange}
+              className="store-settings-color"
+            />
+          </label>
 
-        {/* Save Button */}
-        <button
-          type="submit"
-          className="store-settings-button"
-          disabled={!isValid}
-        >
-          Save
-        </button>
+          {/* Description */}
+          <label className="store-settings-label">
+            Description
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className="store-settings-textarea"
+              placeholder="Description"
+            />
+          </label>
+          {errors.description && (
+            <p className="store-settings-error">{errors.description}</p>
+          )}
 
-        {/* Delete Button (only shown if store exists) */}
-        {store && (
+          {/* Save Button */}
           <button
-            type="button"
-            className="store-settings-delete-button"
-            onClick={handleDelete}
+            type="submit"
+            className="store-settings-button"
+            disabled={!isValid}
           >
-            Delete Store
+            Save
           </button>
-        )}
-      </form>
+
+          {/* Delete Button (only shown if store exists) */}
+          {store && (
+            <button
+              type="button"
+              className="store-settings-delete-button"
+              onClick={handleDelete}
+            >
+              Delete Store
+            </button>
+          )}
+        </form>
+      </main>
     </div>
   );
 }

@@ -2,14 +2,13 @@
 
 /* Page container */
 .store-settings-page {
+  flex: 1;
   padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
+  background-color: white;
 }
 
 /* Page title */
 .store-settings-title {
-  text-align: center;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -17,10 +16,10 @@
 
 /* Form container */
 .store-settings-form {
-  background: #fff;
+  background: white;
   border: 1px solid #ddd;
   border-radius: 6px;
-  padding: 20px;
+  box-shadow: 0px 1px 3px black;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -87,7 +86,7 @@
 .store-settings-button {
   align-self: flex-start;
   padding: 10px 20px;
-  background-color: #3b82f6; /* blue */
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
@@ -95,9 +94,13 @@
   cursor: pointer;
 }
 
+.store-settings-button:hover {
+  background-color: #0056b3;
+}
+
 /* Disabled save button */
 .store-settings-button:disabled {
-  background-color: #9ca3af; /* gray */
+  background-color: gray;
   cursor: not-allowed;
 }
 
@@ -105,7 +108,7 @@
 .store-settings-delete-button {
   align-self: flex-start;
   padding: 10px 20px;
-  background-color: #ef4444; /* red */
+  background-color: red;
   color: white;
   border: none;
   border-radius: 4px;
@@ -115,5 +118,5 @@
 
 /* Delete button hover state */
 .store-settings-delete-button:hover {
-  background-color: #dc2626; /* darker red */
+  background-color: darkred;
 }

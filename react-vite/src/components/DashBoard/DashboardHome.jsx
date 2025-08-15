@@ -7,7 +7,7 @@ import { thunkGetMyStore } from "../../redux/storeSettings";
 import { thunkGetProducts } from "../../redux/products";
 import { thunkGetOrders } from "../../redux/orders";
 import "./DashboardHome.css";
-import Sidebar from "../Sidebar/Sidebar";
+// import Sidebar from "../Sidebar/Sidebar";
 
 export default function DashboardHome() {
   const dispatch = useDispatch();
@@ -28,8 +28,8 @@ export default function DashboardHome() {
 
   return (
     <div className="dashboard-layout">
-      {/* Sidebar */}
-      <Sidebar />
+      {/* Sidebar
+      <Sidebar /> */}
 
       {/* Main dashboard content */}
       <main className="dashboard-main">
