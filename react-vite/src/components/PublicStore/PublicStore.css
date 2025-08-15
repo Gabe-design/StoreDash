@@ -1,1 +1,146 @@
 /* react-vite/src/components/PublicStore/PublicStore.css */
+
+/* src/components/PublicStore/PublicStore.css */
+
+/* Page container */
+.public-store-page {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Store header */
+.public-store-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.public-store-logo {
+  max-width: 120px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.public-store-header h1 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.public-store-header p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Search bar */
+.public-store-search {
+  padding: 8px 12px;
+  width: 250px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Products grid */
+.public-store-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.public-store-product {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  text-align: center;
+  background: #fff;
+}
+
+.public-store-product img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.public-store-product h3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.public-store-tag {
+  display: inline-block;
+  font-size: 12px;
+  color: #666;
+  background: #f0f0f0;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.public-store-product p {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+/* Stock status */
+.public-store-stock {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.in-stock {
+  color: green;
+}
+
+.out-of-stock {
+  color: red;
+}
+
+/* Order form */
+.public-store-order-form {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.public-store-order-form input {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.public-store-order-form button {
+  padding: 10px 20px;
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.public-store-order-form button:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+/* Error message */
+.public-store-error {
+  text-align: center;
+  padding: 40px;
+}
+
+.public-store-error h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.public-store-error p {
+  font-size: 14px;
+}

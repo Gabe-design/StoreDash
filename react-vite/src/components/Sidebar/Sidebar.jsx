@@ -1,5 +1,4 @@
-// src/components/Sidebar/Sidebar.jsx
-
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkLogout } from "../../redux/session";
@@ -9,12 +8,30 @@ export default function Sidebar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // This will get the current logged-in user from the Redux store
+  // This will get the currently logged-in user from the Redux store
   const sessionUser = useSelector((state) => state.session.user);
 
-  // This will get the store name from the user object or fallback to a placeholder
-  const storeName = sessionUser?.storeName || "my-store";
+  // This will store the current user's store name if they have one
+  const [storeName, setStoreName] = useState(null);
 
+  // When the component mounts or the session user changes, This will fetch the current user's store data
+  useEffect(() => {
+    if (sessionUser) {
+      fetch("/api/stores/me")
+        .then((res) => {
+          if (res.ok) return res.json();
+        })
+        .then((data) => {
+          // If the user has a store, this will save the store name in state
+          if (data?.store?.name) {
+            setStoreName(data.store.name);
+          }
+        })
+        .catch((err) => console.error("Error fetching store:", err));
+    }
+  }, [sessionUser]);
+
+  // This will log the user out and redirect them to the login page
   const handleLogout = async () => {
     await dispatch(thunkLogout());
     navigate("/login");
@@ -27,12 +44,19 @@ export default function Sidebar() {
       </div>
 
       <nav className="sidebar-nav">
-        <NavLink to={`/store/${storeName}`} className="sidebar-link">
-          View Store
-        </NavLink>
+        {/* This will show the 'View Store' link only if the user has a store */}
+        {storeName && (
+          <NavLink to={`/store/${storeName}`} className="sidebar-link">
+            View Store
+          </NavLink>
+        )}
+
+        {/* This will always show the 'Customize Store' link */}
         <NavLink to="/dashboard/store" className="sidebar-link">
           Customize Store
         </NavLink>
+
+        {/* Links for dashboard sections */}
         <NavLink to="/dashboard/products" className="sidebar-link">
           Products
         </NavLink>
@@ -45,6 +69,7 @@ export default function Sidebar() {
       </nav>
 
       <div className="sidebar-footer">
+        {/* This will log the user out when clicked */}
         <button onClick={handleLogout} className="sidebar-logout">
           Log Out
         </button>

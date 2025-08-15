@@ -1,1 +1,102 @@
 /* react-vite/src/components/StoreSettings/StoreSettings.css */
+
+/* Page container */
+.store-settings-page {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Page title */
+.store-settings-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Form container */
+.store-settings-form {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Label + input grouping */
+.store-settings-label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  font-size: 14px;
+  gap: 8px;
+}
+
+/* Text and URL inputs */
+.store-settings-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* File input */
+.store-settings-file {
+  border: none;
+  font-size: 14px;
+}
+
+/* Color picker */
+.store-settings-color {
+  width: 60px;
+  height: 35px;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Textarea */
+.store-settings-textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  resize: vertical;
+}
+
+/* Logo preview */
+.store-settings-logo-preview {
+  max-width: 150px;
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 8px;
+}
+
+/* Error messages */
+.store-settings-error {
+  color: red;
+  font-size: 12px;
+  margin-top: -4px;
+}
+
+/* Save button */
+.store-settings-button {
+  align-self: flex-start;
+  padding: 10px 20px;
+  background-color: #3b82f6; /* blue */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Disabled save button */
+.store-settings-button:disabled {
+  background-color: #9ca3af; /* gray */
+  cursor: not-allowed;
+}
