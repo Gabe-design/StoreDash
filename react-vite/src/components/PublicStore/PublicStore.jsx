@@ -1,5 +1,3 @@
-// src/components/PublicStore/PublicStore.jsx
-
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import "./PublicStore.css";
@@ -7,16 +5,12 @@ import "./PublicStore.css";
 function PublicStore() {
   // This will get the store name from the URL
   const { storeName } = useParams();
-
   // This will store the store and product data from the API
   const [storeData, setStoreData] = useState(null);
-
   // This will store any error state
   const [error, setError] = useState(null);
-
   // This will store the search query for filtering products
   const [searchQuery, setSearchQuery] = useState("");
-
   // This will store the order form data
   const [orderForm, setOrderForm] = useState({
     buyer_name: "",
@@ -30,7 +24,7 @@ function PublicStore() {
     orderForm.buyer_email.trim().length > 0 &&
     orderForm.products.trim().length > 0;
 
-  // Fetch the public store data when the component mounts
+  // This will fetch the public store data when the component mounts
   useEffect(() => {
     fetch(`/api/public/stores/${storeName}`)
       .then((res) => {
@@ -54,16 +48,15 @@ function PublicStore() {
       });
   }, [storeName]);
 
-  // Handle form input changes for the order form
+  // This will handle changes in the order form
   const handleOrderChange = (e) => {
     const { name, value } = e.target;
     setOrderForm({ ...orderForm, [name]: value });
   };
 
-  // Handle order form submission
+  // This will handle submitting the order form
   const handleOrderSubmit = (e) => {
     e.preventDefault();
-
     fetch("/api/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -77,7 +70,7 @@ function PublicStore() {
       .catch(() => alert("Failed to place order."));
   };
 
-  // Show store not found message
+  // This will show a message if the store is not found
   if (error === "not-found") {
     return (
       <div className="public-store-error">
@@ -90,7 +83,7 @@ function PublicStore() {
     );
   }
 
-  // Show error for network/server issues
+  // This will show an error if there is a server or network issue
   if (error === "server-error" || error === "network-error") {
     return (
       <div className="public-store-error">
@@ -100,20 +93,25 @@ function PublicStore() {
     );
   }
 
-  // Show loading while fetching data
+  // This will show a loading message while the store data is loading
   if (!storeData) {
     return <p>Loading store...</p>;
   }
 
-  // Filter products by search query
+  // This will filter products based on the search query
   const filteredProducts = storeData.products.filter((product) =>
     product.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
     <div className="public-store-page">
-      {/* Store header */}
-      <div className="public-store-header">
+      {/* This will display the store header and apply the store's theme color */}
+      <div
+        className="public-store-header"
+        style={{
+          backgroundColor: storeData.store.theme_color || "",
+        }}
+      >
         {storeData.store.logo_url && (
           <img
             src={storeData.store.logo_url}
@@ -124,7 +122,7 @@ function PublicStore() {
         <h1>{storeData.store.name}</h1>
         <p>{storeData.store.description}</p>
 
-        {/* Search bar */}
+        {/* This is the search bar for filtering products */}
         <input
           type="text"
           placeholder="Search products..."
@@ -134,7 +132,7 @@ function PublicStore() {
         />
       </div>
 
-      {/* Products grid */}
+      {/* This will display the products grid */}
       <div className="public-store-products">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
@@ -155,7 +153,7 @@ function PublicStore() {
         )}
       </div>
 
-      {/* Order form */}
+      {/* This is the order form for purchasing products */}
       <form onSubmit={handleOrderSubmit} className="public-store-order-form">
         <input
           type="text"

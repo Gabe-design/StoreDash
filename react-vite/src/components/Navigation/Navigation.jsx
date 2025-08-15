@@ -19,35 +19,54 @@ function Navigation() {
   // This will create a reference to the dropdown menu element
   const dropdownRef = useRef(null);
 
+  // This will store the theme color for the public store navigation bar
+  const [themeColor, setThemeColor] = useState(null);
+
+  // This will check if the current route is a public store page
+  const isPublicStore = location.pathname.startsWith("/store/");
+
+  // This will fetch the public store's theme color if visiting a public store page
+  useEffect(() => {
+    if (isPublicStore) {
+      const storeName = location.pathname.split("/")[2];
+      fetch(`/api/public/stores/${storeName}`)
+        .then((res) => res.ok && res.json())
+        .then((data) => {
+          if (data?.store?.theme_color) {
+            setThemeColor(data.store.theme_color);
+          }
+        })
+        .catch(() => {
+          setThemeColor(null);
+        });
+    } else {
+      setThemeColor(null);
+    }
+  }, [isPublicStore, location.pathname]);
+
   // This will handle the click for the "Start Selling" button
   const handleStartSelling = () => {
-    // If the user is logged in, it will navigate them to the store dashboard
     if (sessionUser) {
       navigate("/dashboard/store");
     } else {
-      // If the user is not logged in, it will toggle the dropdown menu
       setDropdownOpen((prev) => !prev);
     }
   };
 
-  // This will handle the logout action for logged-in users
+  // This will log the user out
   const handleLogout = async () => {
-    // This will dispatch the thunkLogout action to clear the session
     await dispatch(thunkLogout());
-    // This will navigate the user back to the landing page after logging out
     navigate("/");
   };
 
-  // This will allow the dropdown to close when clicking outside of it
+  // This will close the dropdown when clicking outside of it
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
       }
     };
-    // This will add the event listener for outside clicks
     document.addEventListener("mousedown", handleClickOutside);
-    // This will remove the event listener when the component is unmounted
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -59,7 +78,11 @@ function Navigation() {
 
   return (
     !hideNav && (
-      <header className="nav-header">
+      <header
+        className="nav-header"
+        // This will apply the public store theme color if available
+        style={{ backgroundColor: themeColor || "" }}
+      >
         <div className="nav-left">
           {/* This is the logo and it will link to the home page */}
           <NavLink to="/" className="nav-logo">
@@ -68,10 +91,9 @@ function Navigation() {
         </div>
 
         <div className="nav-right">
-          {/* This will display navigation items based on whether the user is logged in */}
           {sessionUser ? (
             <>
-              {/* This will link to the dashboard page */}
+              {/* This will link to the dashboard */}
               <NavLink to="/dashboard" className="nav-link">
                 Dashboard
               </NavLink>
@@ -82,16 +104,16 @@ function Navigation() {
             </>
           ) : (
             <>
-              {/* This is the link to the features page */}
+              {/* This will link to the features page */}
               <NavLink to="/features" className="nav-link">
                 Features
               </NavLink>
-              {/* This is the link to the demo login page */}
+              {/* This will link to the demo login page */}
               <NavLink to="/demo-login" className="nav-link">
                 Demo login
               </NavLink>
 
-              {/* This is the "Start Selling" button and dropdown container */}
+              {/* This is the container for the start selling button and dropdown */}
               <div className="start-selling-container" ref={dropdownRef}>
                 <button
                   className="start-selling-button"
@@ -99,7 +121,7 @@ function Navigation() {
                 >
                   Start Selling
                 </button>
-                {/* This will display the dropdown menu if open and user is not logged in */}
+                {/* This will show the dropdown if open and user is not logged in */}
                 {dropdownOpen && !sessionUser && (
                   <div className="dropdown-menu">
                     <NavLink to="/login" className="dropdown-item">
