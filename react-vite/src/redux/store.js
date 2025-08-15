@@ -14,6 +14,7 @@ import reviewsReducer from "./reviews";
 import imagesReducer from "./images";
 import usersReducer from "./users";
 
+// This is the root reducer that combines all the individual reducers
 const rootReducer = combineReducers({
   session: sessionReducer,
   store: storeReducer,

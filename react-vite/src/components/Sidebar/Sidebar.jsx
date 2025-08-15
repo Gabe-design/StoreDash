@@ -1,3 +1,5 @@
+// react-vite/src/components/Sidebar/Sidebar.jsx
+
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,11 +17,11 @@ export default function Sidebar() {
   const [storeName, setStoreName] = useState(null);
   const [storeError, setStoreError] = useState(false);
 
-  // When the component mounts or the session user changes, fetch the current user's store data
+  // When the component mounts or the session user changes, this will fetch the current user's store data
   useEffect(() => {
     if (sessionUser) {
       fetch("/api/stores/me", {
-        credentials: "include" // ✅ Send cookies/session to backend
+        credentials: "include" 
       })
         .then((res) => {
           if (res.ok) return res.json();
@@ -29,7 +31,7 @@ export default function Sidebar() {
           }
         })
         .then((data) => {
-          // If the user has a store, save the store name in state
+          // If the user has a store, this will save the store name in state
           if (data?.store?.name) {
             setStoreName(data.store.name);
           }
@@ -58,7 +60,7 @@ export default function Sidebar() {
           </NavLink>
         )}
 
-        {/* Show message if no store is found */}
+        {/* This shows a message if no store is found */}
         {storeError && (
           <div className="sidebar-store-warning">
             Store not found — Customize your store to get started

@@ -1,5 +1,8 @@
+// react-vite/src/router/index.jsx
+
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from './Layout';
+// Added this for the sidebar layout on all dashboard pages
 import DashboardLayout from './DashboardLayout';
 import ProtectedRoute from './ProtectedRoute';
 

@@ -9,10 +9,14 @@ import { thunkGetOrders } from "../../redux/orders";
 import "./DashboardHome.css";
 // import Sidebar from "../Sidebar/Sidebar";
 
+// This is the main dashboard page
 export default function DashboardHome() {
+  // This will dispatch actions to get the current store, products, and orders
   const dispatch = useDispatch();
+  // This will navigate to different pages
   const navigate = useNavigate();
 
+  // These will get the current user, store, products, and orders from Redux
   const user = useSelector((state) => state.session.user);
   const store = useSelector((state) => state.store.current);
   const products = useSelector((state) => state.products.list);
@@ -20,10 +24,13 @@ export default function DashboardHome() {
 
   useEffect(() => {
     dispatch(thunkGetMyStore());
+    // This will get the current user's products
     dispatch(thunkGetProducts());
+    // This will get the current user's orders
     dispatch(thunkGetOrders());
   }, [dispatch]);
 
+  // If no user is logged in, this will redirect to the login page
   if (!user) return null;
 
   return (
@@ -31,7 +38,7 @@ export default function DashboardHome() {
       {/* Sidebar
       <Sidebar /> */}
 
-      {/* Main dashboard content */}
+      {/* This is the main dashboard content */}
       <main className="dashboard-main">
         <header className="dashboard-header">
           <h1>Welcome {user.email}!</h1>

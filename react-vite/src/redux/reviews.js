@@ -37,7 +37,7 @@ export const thunkGetReviews = (productId) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     if (data.errors) return;
-    dispatch(setReviews(data.reviews)); // { reviews: [...] }
+    dispatch(setReviews(data.reviews));
   }
 };
 
@@ -51,7 +51,7 @@ export const thunkCreateReview = (reviewData) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     if (data.errors) return data.errors;
-    dispatch(addReview(data.review)); // { review: {...} }
+    dispatch(addReview(data.review));
   } else {
     const errorData = await response.json();
     return errorData;

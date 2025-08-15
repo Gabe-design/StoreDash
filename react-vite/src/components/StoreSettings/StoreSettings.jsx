@@ -1,4 +1,4 @@
-// src/components/StoreSettings/StoreSettings.jsx
+// rect-vite/src/components/StoreSettings/StoreSettings.jsx
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,8 +7,11 @@ import { thunkGetMyStore, thunkUpdateMyStore, thunkDeleteMyStore } from "../../r
 // import Sidebar from "../Sidebar/Sidebar";
 import "./StoreSettings.css";
 
+// This is the store settings page where users can customize their store
 function StoreSettings() {
+  // This will dispatch actions to get, update, and delete the store
   const dispatch = useDispatch();
+  // This will navigate to different pages
   const navigate = useNavigate();
 
   // This will get the current store data from Redux
@@ -16,9 +19,13 @@ function StoreSettings() {
 
   // This will store the form inputs locally
   const [formData, setFormData] = useState({
+    // This is for the store name
     name: "",
+    // This is for the store logo URL
     logo_url: "",
+    // This is for the store theme color
     theme_color: "#000000",
+    // This is for the store description
     description: "",
   });
 
@@ -40,7 +47,7 @@ function StoreSettings() {
     dispatch(thunkGetMyStore());
   }, [dispatch]);
 
-  // When store data changes in Redux, update the form fields
+  // When store data changes in Redux, it will update the form fields
   useEffect(() => {
     if (store) {
       setFormData({
@@ -51,7 +58,7 @@ function StoreSettings() {
       });
       setLogoPreview(store.logo_url || "");
     } else {
-      // If no store exists, reset the form
+      // If no store exists, it will reset the form
       setFormData({
         name: "",
         logo_url: "",
@@ -129,12 +136,12 @@ function StoreSettings() {
       {/* Sidebar
       <Sidebar /> */}
 
-      {/* Main customization content */}
+      {/* This is the main customization content */}
       <main className="dashboard-main">
         <h2 className="store-settings-title">Store Customization</h2>
 
         <form onSubmit={handleSubmit} className="store-settings-form">
-          {/* Store Name */}
+          {/* This is the store name */}
           <label className="store-settings-label">
             Store name
             <input
@@ -149,7 +156,7 @@ function StoreSettings() {
           </label>
           {errors.name && <p className="store-settings-error">{errors.name}</p>}
 
-          {/* Logo URL */}
+          {/* This is the logo URL */}
           <label className="store-settings-label">
             Logo upload (URL)
             <input
@@ -162,7 +169,7 @@ function StoreSettings() {
             />
           </label>
 
-          {/* File Upload */}
+          {/* This is the file upload */}
           <label className="store-settings-label">
             Or choose file
             <input
@@ -173,7 +180,7 @@ function StoreSettings() {
             />
           </label>
 
-          {/* Logo Preview */}
+          {/* This is the logo preview */}
           {logoPreview && (
             <img
               src={logoPreview}
@@ -182,7 +189,7 @@ function StoreSettings() {
             />
           )}
 
-          {/* Theme Color */}
+          {/* This is the theme color */}
           <label className="store-settings-label">
             Theme color
             <input
@@ -194,7 +201,7 @@ function StoreSettings() {
             />
           </label>
 
-          {/* Description */}
+          {/* This is the description */}
           <label className="store-settings-label">
             Description
             <textarea
@@ -209,7 +216,7 @@ function StoreSettings() {
             <p className="store-settings-error">{errors.description}</p>
           )}
 
-          {/* Save Button */}
+          {/* This is the save button */}
           <button
             type="submit"
             className="store-settings-button"
@@ -218,7 +225,7 @@ function StoreSettings() {
             Save
           </button>
 
-          {/* Delete Button (only shown if store exists) */}
+          {/* This is the delete button (will only shown if a store exists) */}
           {store && (
             <button
               type="button"
