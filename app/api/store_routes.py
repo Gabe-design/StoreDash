@@ -59,37 +59,50 @@ def create_store():
     # If the form is not valid, it will return the errors
     return {'errors': form.errors}, 400
 
-# This route updates the store for the current user
+# This route updates the store for the current user,
+# or creates it if it does not already exist
 @store_routes.route('/me', methods=['PUT'])
 @login_required
 def update_my_store():
-    """Update the store for the current user."""
+    """Update the store for the current user, or create it if none exists."""
 
-    # This will get the store for the current user
+    # This will attempt to get the store for the current user that is still active
     store = Store.query.filter_by(user_id=current_user.id, active=True).first()
 
-    # If the store is not found, it will return an error
-    if not store:
-        # If the store is not found, it will return an error
-        return {'errors': {'message': 'Store not found.'}}, 404
-
-    # This will validate the form data for updating the store
-    # And it will set the CSRF token from the request cookies
+    # This will validate the form data for creating/updating the store
     form = StoreForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
-    # If the form is valid, it will update the store's details
+    # If the form is valid, proceed
     if form.validate_on_submit():
-        store.name = form.data.get('name')
-        store.logo_url = form.data.get('logo_url')
-        store.theme_color = form.data.get('theme_color')
-        store.description = form.data.get('description')
-        # This will commit the changes to the database
+        if store:
+            # If the store exists, update its details
+            store.name = form.data.get('name')
+            store.logo_url = form.data.get('logo_url')
+            store.theme_color = form.data.get('theme_color')
+            store.description = form.data.get('description')
+        else:
+            # If the store does not exist, create a new one with the given data
+            store = Store(
+                user_id=current_user.id,
+                name=form.data.get('name'),
+                logo_url=form.data.get('logo_url'),
+                theme_color=form.data.get('theme_color'),
+                description=form.data.get('description'),
+                # Set the store as active by default for soft delete functionality
+                active=True
+            )
+            db.session.add(store)  # This will add the new store to the session
+
+        # This will commit either the updates or the new store to the database
         db.session.commit()
-        # This will return the updated store in a dictionary format
+
+        # This will return the updated or newly created store in a dictionary format
         return {'store': store.to_dict()}
-    # If the form is not valid, it will return the errors
+
+    # If the form is not valid, return the validation errors
     return {'errors': form.errors}, 400
+
 
 # This route deletes the store for the current user (soft delete)
 @store_routes.route('/me', methods=['DELETE'])

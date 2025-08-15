@@ -13,16 +13,23 @@ export default function Sidebar() {
 
   // This will store the current user's store name if they have one
   const [storeName, setStoreName] = useState(null);
+  const [storeError, setStoreError] = useState(false);
 
-  // When the component mounts or the session user changes, This will fetch the current user's store data
+  // When the component mounts or the session user changes, fetch the current user's store data
   useEffect(() => {
     if (sessionUser) {
-      fetch("/api/stores/me")
+      fetch("/api/stores/me", {
+        credentials: "include" // ✅ Send cookies/session to backend
+      })
         .then((res) => {
           if (res.ok) return res.json();
+          if (res.status === 404) {
+            setStoreError(true);
+            return null;
+          }
         })
         .then((data) => {
-          // If the user has a store, this will save the store name in state
+          // If the user has a store, save the store name in state
           if (data?.store?.name) {
             setStoreName(data.store.name);
           }
@@ -49,6 +56,13 @@ export default function Sidebar() {
           <NavLink to={`/store/${storeName}`} className="sidebar-link">
             View Store
           </NavLink>
+        )}
+
+        {/* Show message if no store is found */}
+        {storeError && (
+          <div className="sidebar-store-warning">
+            Store not found — Customize your store to get started
+          </div>
         )}
 
         {/* This will always show the 'Customize Store' link */}

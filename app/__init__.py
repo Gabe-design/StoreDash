@@ -42,7 +42,7 @@ app.register_blueprint(user_routes, url_prefix='/api/users')
 # This will register the auth routes for login, logout, and signup
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 # This will register the store routes for store management
-app.register_blueprint(store_routes, url_prefix='/api/store')
+app.register_blueprint(store_routes, url_prefix='/api/stores')
 # This will register the product routes for product management
 app.register_blueprint(product_routes, url_prefix='/api/products')
 # This will register the public routes for public access to stores and products
@@ -59,7 +59,7 @@ db.init_app(app)
 Migrate(app, db)
 
 # Application Security
-CORS(app)
+CORS(app, supports_credentials=True)
 
 
 # Since we are deploying with Docker and Flask,

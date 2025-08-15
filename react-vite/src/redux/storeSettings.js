@@ -14,7 +14,9 @@ export const clearStore = () => ({
 
 // Thunks
 export const thunkGetMyStore = () => async (dispatch) => {
-  const response = await fetch("/api/stores/me");
+  const response = await fetch("/api/stores/me", {
+    credentials: "include" 
+  });
   if (response.ok) {
     const data = await response.json();
     if (data.errors) return;
@@ -26,6 +28,7 @@ export const thunkUpdateMyStore = (storeData) => async (dispatch) => {
   const response = await fetch("/api/stores/me", {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
+    credentials: "include", 
     body: JSON.stringify(storeData)
   });
   if (response.ok) {

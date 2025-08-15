@@ -39,7 +39,7 @@ function StoreSettings() {
     dispatch(thunkGetMyStore());
   }, [dispatch]);
 
-  // When store data changes in Redux, update the form fields
+  // When store data changes in Redux, updatews the form fields
   useEffect(() => {
     if (store) {
       setFormData({
@@ -75,6 +75,7 @@ function StoreSettings() {
     fetch("/api/images/upload", {
       method: "POST",
       body: formDataObj,
+      credentials: "include"
     })
       .then((res) => res.json())
       .then((data) => {
