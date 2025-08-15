@@ -42,6 +42,22 @@ export const thunkUpdateMyStore = (storeData) => async (dispatch) => {
   }
 };
 
+export const thunkDeleteMyStore = () => async (dispatch) => {
+  const response = await fetch("/api/stores/me", {
+    method: "DELETE",
+    credentials: "include"
+  });
+
+  if (response.ok) {
+    dispatch(clearStore());
+    return null;
+  } else if (response.status < 500) {
+    return await response.json();
+  } else {
+    return { server: "Something went wrong. Please try again" };
+  }
+};
+
 // Initial state
 const initialState = { current: null };
 

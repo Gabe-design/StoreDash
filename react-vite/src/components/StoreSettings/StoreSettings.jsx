@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { thunkGetMyStore, thunkUpdateMyStore } from "../../redux/storeSettings";
+import { thunkGetMyStore, thunkUpdateMyStore, thunkDeleteMyStore } from "../../redux/storeSettings";
 import "./StoreSettings.css";
 
 function StoreSettings() {
@@ -39,7 +39,7 @@ function StoreSettings() {
     dispatch(thunkGetMyStore());
   }, [dispatch]);
 
-  // When store data changes in Redux, updatews the form fields
+  // When store data changes in Redux, update the form fields
   useEffect(() => {
     if (store) {
       setFormData({
@@ -49,6 +49,15 @@ function StoreSettings() {
         description: store.description || "",
       });
       setLogoPreview(store.logo_url || "");
+    } else {
+      // If no store exists, reset the form
+      setFormData({
+        name: "",
+        logo_url: "",
+        theme_color: "#000000",
+        description: "",
+      });
+      setLogoPreview("");
     }
   }, [store]);
 
@@ -75,7 +84,6 @@ function StoreSettings() {
     fetch("/api/images/upload", {
       method: "POST",
       body: formDataObj,
-      credentials: "include"
     })
       .then((res) => res.json())
       .then((data) => {
@@ -93,6 +101,25 @@ function StoreSettings() {
       setErrors(serverErrors);
     } else {
       navigate("/dashboard");
+    }
+  };
+
+  // This will handle store deletion
+  const handleDelete = async () => {
+    if (window.confirm("Are you sure you want to delete your store? This action cannot be undone.")) {
+      const serverErrors = await dispatch(thunkDeleteMyStore());
+      if (!serverErrors) {
+        // Reset the form instantly after deleting
+        setFormData({
+          name: "",
+          logo_url: "",
+          theme_color: "#000000",
+          description: "",
+        });
+        setLogoPreview("");
+        // Stay on the same page so user sees "Customize your store to get started"
+        dispatch(thunkGetMyStore()); 
+      }
     }
   };
 
@@ -184,6 +211,17 @@ function StoreSettings() {
         >
           Save
         </button>
+
+        {/* Delete Button (only shown if store exists) */}
+        {store && (
+          <button
+            type="button"
+            className="store-settings-delete-button"
+            onClick={handleDelete}
+          >
+            Delete Store
+          </button>
+        )}
       </form>
     </div>
   );
