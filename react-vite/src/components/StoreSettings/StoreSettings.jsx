@@ -1,4 +1,4 @@
-// rect-vite/src/components/StoreSettings/StoreSettings.jsx
+// react-vite/src/components/StoreSettings/StoreSettings.jsx
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -58,7 +58,7 @@ function StoreSettings() {
       });
       setLogoPreview(store.logo_url || "");
     } else {
-      // If no store exists, it will reset the form
+      // This is so if no store exists, it will reset the form
       setFormData({
         name: "",
         logo_url: "",
@@ -117,7 +117,7 @@ function StoreSettings() {
     if (window.confirm("Are you sure you want to delete your store? This action cannot be undone.")) {
       const serverErrors = await dispatch(thunkDeleteMyStore());
       if (!serverErrors) {
-        // Reset the form instantly after deleting
+        // This will reset the form instantly after deleting
         setFormData({
           name: "",
           logo_url: "",
@@ -125,8 +125,6 @@ function StoreSettings() {
           description: "",
         });
         setLogoPreview("");
-        // Stay on the same page so user sees "Customize your store to get started"
-        dispatch(thunkGetMyStore()); 
       }
     }
   };
@@ -225,7 +223,7 @@ function StoreSettings() {
             Save
           </button>
 
-          {/* This is the delete button (will only shown if a store exists) */}
+          {/* This is the delete button (will only show if a store exists) */}
           {store && (
             <button
               type="button"

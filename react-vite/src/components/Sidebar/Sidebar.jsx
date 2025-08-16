@@ -1,44 +1,22 @@
 // react-vite/src/components/Sidebar/Sidebar.jsx
 
-import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkLogout } from "../../redux/session";
 import "./Sidebar.css";
 
+// This is the sidebar component for dashboard navigation
 export default function Sidebar() {
+  // This will dispatch actions to the Redux store
   const dispatch = useDispatch();
+  // This will navigate to different pages
   const navigate = useNavigate();
 
-  // This will get the currently logged-in user from the Redux store
-  const sessionUser = useSelector((state) => state.session.user);
+  // This will get the currently logged-in user from Redux
+  // const sessionUser = useSelector((state) => state.session.user);
 
-  // This will store the current user's store name if they have one
-  const [storeName, setStoreName] = useState(null);
-  const [storeError, setStoreError] = useState(false);
-
-  // When the component mounts or the session user changes, this will fetch the current user's store data
-  useEffect(() => {
-    if (sessionUser) {
-      fetch("/api/stores/me", {
-        credentials: "include" 
-      })
-        .then((res) => {
-          if (res.ok) return res.json();
-          if (res.status === 404) {
-            setStoreError(true);
-            return null;
-          }
-        })
-        .then((data) => {
-          // If the user has a store, this will save the store name in state
-          if (data?.store?.name) {
-            setStoreName(data.store.name);
-          }
-        })
-        .catch((err) => console.error("Error fetching store:", err));
-    }
-  }, [sessionUser]);
+  // This will get the current user's store directly from Redux
+  const store = useSelector((state) => state.store.current);
 
   // This will log the user out and redirect them to the login page
   const handleLogout = async () => {
@@ -53,15 +31,15 @@ export default function Sidebar() {
       </div>
 
       <nav className="sidebar-nav">
-        {/* This will show the 'View Store' link only if the user has a store */}
-        {storeName && (
-          <NavLink to={`/store/${storeName}`} className="sidebar-link">
+        {/* This will show the 'View Store' link only if the store exists in Redux */}
+        {store && (
+          <NavLink to={`/store/${store.name}`} className="sidebar-link">
             View Store
           </NavLink>
         )}
 
-        {/* This shows a message if no store is found */}
-        {storeError && (
+        {/* This will show a warning if no store exists */}
+        {!store && (
           <div className="sidebar-store-warning">
             Store not found — Customize your store to get started
           </div>
@@ -72,7 +50,7 @@ export default function Sidebar() {
           Customize Store
         </NavLink>
 
-        {/* Links for dashboard sections */}
+        {/* These are the dashboard links */}
         <NavLink to="/dashboard/products" className="sidebar-link">
           Products
         </NavLink>
