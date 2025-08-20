@@ -49,7 +49,7 @@ export default function ProductList() {
             <tr>
               <th>Image</th>
               <th>Name</th>
-              <th>Tag</th>
+              <th>Tags</th>
               <th>Price</th>
               <th>Stock</th>
               <th>Edit</th>
@@ -59,6 +59,7 @@ export default function ProductList() {
           <tbody>
             {products.map((product) => (
               <tr key={product.id}>
+                {/* This will display the product image or "No Image" */}
                 <td>
                   {product.image_url ? (
                     <img
@@ -70,14 +71,20 @@ export default function ProductList() {
                     "No Image"
                   )}
                 </td>
+
                 {/* This will display the product title */}
                 <td>{product.title}</td>
+
                 {/* This will display tags as a comma-separated string */}
                 <td>{product.tags?.length ? product.tags.join(", ") : "—"}</td>
+
                 {/* This will display the product price */}
                 <td>${product.price}</td>
-                {/* This will display stock (if added later) */}
+
+                {/* This will display stock as Yes or No */}
                 <td>{product.in_stock ? "Yes" : "No"}</td>
+
+                {/* This will show the edit link */}
                 <td>
                   <Link
                     to={`/dashboard/products/${product.id}/edit`}
@@ -86,6 +93,8 @@ export default function ProductList() {
                     Edit
                   </Link>
                 </td>
+
+                {/* This will show the delete button */}
                 <td>
                   <button
                     onClick={() => handleDelete(product.id)}
