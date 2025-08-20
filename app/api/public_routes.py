@@ -47,7 +47,7 @@ def public_create_order(store_name):
     data = request.get_json() or {}
     buyer_name = data.get('buyer_name')
     buyer_email = data.get('buyer_email')
-    product_names = data.get('product_names', [])
+    product_names = data.get('product_names')
 
     # This will validate required fields
     if not buyer_name or not buyer_email or not product_names:
@@ -61,9 +61,9 @@ def public_create_order(store_name):
     if not isinstance(product_names, list) or not all(isinstance(name, str) for name in product_names):
         return {'errors': {'message': 'product_names must be a list of strings.'}}, 400
 
-    # This is to query products for this store by name
+    # This is to query products for this store by name (case-insensitive)
     products = Product.query.filter(
-        Product.title.in_(product_names),
+        db.func.lower(Product.title).in_([name.lower() for name in product_names]),
         Product.store_id == store.id
     ).all()
 

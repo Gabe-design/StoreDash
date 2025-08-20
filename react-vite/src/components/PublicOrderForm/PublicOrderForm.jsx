@@ -40,7 +40,7 @@ export default function PublicOrderForm() {
     const payload = {
       buyer_name: buyerName,
       buyer_email: buyerEmail,
-      product_ids: [product.id],
+      product_names: [product.title],
     };
 
     // Dispatch the thunk to create a new public order

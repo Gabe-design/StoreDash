@@ -15,14 +15,14 @@ function PublicStore() {
   const [orderForm, setOrderForm] = useState({
     buyer_name: "",
     buyer_email: "",
-    products: "",
+    product_names: "",
   });
 
   // This will disable the purchase button until form is valid
   const isOrderValid =
     orderForm.buyer_name.trim().length > 0 &&
     orderForm.buyer_email.trim().length > 0 &&
-    orderForm.products.trim().length > 0;
+    orderForm.product_names.trim().length > 0;
 
   // This will fetch the public store data when the component mounts
   useEffect(() => {
@@ -57,15 +57,26 @@ function PublicStore() {
   // This will handle submitting the order form
   const handleOrderSubmit = (e) => {
     e.preventDefault();
-    fetch("/api/orders", {
+
+    // This will transform product_names (comma-separated string) into a list of strings
+    const payload = {
+      buyer_name: orderForm.buyer_name,
+      buyer_email: orderForm.buyer_email,
+      product_names: orderForm.product_names
+        .split(",")
+        .map((name) => name.trim())
+        .filter((name) => name.length > 0),
+    };
+
+    fetch(`/api/public/stores/${storeName}/orders`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(orderForm),
+      body: JSON.stringify(payload), // This sends product_names as a list of strings
     })
       .then((res) => res.json())
       .then(() => {
         alert("Order placed successfully!");
-        setOrderForm({ buyer_name: "", buyer_email: "", products: "" });
+        setOrderForm({ buyer_name: "", buyer_email: "", product_names: "" });
       })
       .catch(() => alert("Failed to place order."));
   };
@@ -171,9 +182,9 @@ function PublicStore() {
         />
         <input
           type="text"
-          name="products"
-          placeholder="Enter products you wish to buy"
-          value={orderForm.products}
+          name="product_names"
+          placeholder="Enter products you wish to buy (comma-separated)"
+          value={orderForm.product_names}
           onChange={handleOrderChange}
         />
         <button type="submit" disabled={!isOrderValid}>
