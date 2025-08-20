@@ -43,6 +43,7 @@ class Product(db.Model):
             'price': self.price,
             'description': self.description,
             'image_url': self.image_url,
+            'in_stock': self.in_stock,
             'tags': [tag.name for tag in self.tags]
         }
 

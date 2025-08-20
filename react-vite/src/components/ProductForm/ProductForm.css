@@ -1,1 +1,84 @@
-/* react-vite/src/components/PublicForm/ProductForm.css */
+/* react-vite/src/components/ProductForm/ProductForm.css */
+
+/* Page title */
+.product-form-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Form container */
+.product-form {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0px 1px 3px black;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+/* Label + input grouping */
+.product-form-label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  font-size: 14px;
+  gap: 8px;
+}
+
+/* Text and number inputs */
+.product-form-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Textarea */
+.product-form-textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  resize: vertical;
+}
+
+/* Error messages */
+.product-form-error {
+  color: red;
+  font-size: 12px;
+  margin-top: -4px;
+}
+
+/* Error list container */
+.product-form-error-list {
+  background: #ffe6e6;
+  border: 1px solid red;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 16px;
+}
+
+/* Submit button */
+.product-form-button {
+  align-self: flex-start;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.product-form-button:hover {
+  background-color: #0056b3;
+}
+
+/* Disabled state */
+.product-form-button:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}

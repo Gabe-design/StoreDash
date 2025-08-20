@@ -12,11 +12,11 @@ export default function Sidebar() {
   // This will navigate to different pages
   const navigate = useNavigate();
 
-  // This will get the currently logged-in user from Redux
-  // const sessionUser = useSelector((state) => state.session.user);
-
   // This will get the current user's store directly from Redux
   const store = useSelector((state) => state.store.current);
+
+  // This will get the current user's products directly from Redux
+  const products = useSelector((state) => state.products.list);
 
   // This will log the user out and redirect them to the login page
   const handleLogout = async () => {
@@ -60,6 +60,13 @@ export default function Sidebar() {
         <NavLink to="/dashboard/reviews" className="sidebar-link">
           Reviews
         </NavLink>
+
+        {/* This will show 'Add Product' only if a store exists but no products are found */}
+        {store && products.length === 0 && (
+          <NavLink to="/dashboard/products/new" className="sidebar-link sidebar-add-product">
+            ➕ Add Product
+          </NavLink>
+        )}
       </nav>
 
       <div className="sidebar-footer">
