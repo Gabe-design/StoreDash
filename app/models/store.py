@@ -19,7 +19,7 @@ class Store(db.Model):
     logo_url = db.Column(db.String(255))
     theme_color = db.Column(db.String(50))
     description = db.Column(db.String(500))
-    active = db.Column(db.Boolean, default=True)
+    # active = db.Column(db.Boolean, default=True)
 
     # This is the relationship for the store model
     user = db.relationship('User', backref=db.backref('store', uselist=False))
@@ -34,5 +34,5 @@ class Store(db.Model):
             'logo_url': self.logo_url,
             'theme_color': self.theme_color,
             'description': self.description,
-            'active': self.active
+            # 'active': self.active
         }
