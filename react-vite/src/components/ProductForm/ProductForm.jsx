@@ -30,6 +30,7 @@ function ProductForm() {
     description: "",
     image_url: "",
     tags: "",
+    in_stock: true,
   });
 
   // This will store any validation or server errors
@@ -51,6 +52,7 @@ function ProductForm() {
         description: productToEdit.description || "",
         image_url: productToEdit.image_url || "",
         tags: productToEdit.tags?.join(", ") || "",
+        in_stock: productToEdit.in_stock ?? true,
       });
     }
   }, [productToEdit]);
