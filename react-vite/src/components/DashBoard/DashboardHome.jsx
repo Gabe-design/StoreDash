@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { thunkGetMyStore } from "../../redux/storeSettings";
 import { thunkGetProducts } from "../../redux/products";
 import { thunkGetOrders } from "../../redux/orders";
-import "./DashboardHome.css";
+// import "./DashboardHome.css";
 // import Sidebar from "../Sidebar/Sidebar";
 
 // This is the main dashboard page
