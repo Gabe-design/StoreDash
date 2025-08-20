@@ -12,7 +12,7 @@ import SignupFormPage from '../components/SignupFormPage';
 import LandingPage from '../components/LandingPage/LandingPage';
 
 // These are the dashboard pages
-import DashboardHome from '../components/DashBoard/DashBoardHome';
+import DashboardHome from '../components/Dashboard/DashboardHome';
 import StoreSettings from '../components/StoreSettings/StoreSettings';
 import ProductList from '../components/ProductList/ProductList';
 import ProductForm from '../components/ProductForm/ProductForm';
