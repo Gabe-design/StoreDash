@@ -41,7 +41,7 @@ export default function DashboardHome() {
       {/* This is the main dashboard content */}
       <main className="dashboard-main">
         <header className="dashboard-header">
-          <h1>Welcome {user.email}!</h1>
+          <h1>Welcome{/*{user.email}*/}!</h1>
         </header>
 
         <section className="dashboard-quick-stats">
