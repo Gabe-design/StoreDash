@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { thunkGetMyStore, thunkUpdateMyStore, thunkDeleteMyStore } from "../../redux/storeSettings";
+import { thunkGetMyStore, thunkUpdateMyStore, thunkDeleteMyStore, thunkCreateMyStore, clearStore } from "../../redux/storeSettings";
 // import Sidebar from "../Sidebar/Sidebar";
 import "./StoreSettings.css";
 
 // This is the store settings page where users can customize their store
 function StoreSettings() {
-  // This will dispatch actions to get, update, and delete the store
+  // This will dispatch actions to get, create, update, and delete the store
   const dispatch = useDispatch();
   // This will navigate to different pages
   const navigate = useNavigate();
@@ -75,36 +75,20 @@ function StoreSettings() {
     setFormData({ ...formData, [name]: value });
   };
 
-  // This will handle file upload for the logo
-  const handleLogoFile = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setLogoPreview(URL.createObjectURL(file));
-      uploadLogo(file);
-    }
-  };
-
-  // This will upload the file and set the logo URL
-  const uploadLogo = (file) => {
-    const formDataObj = new FormData();
-    formDataObj.append("image", file);
-
-    fetch("/api/images/upload", {
-      method: "POST",
-      body: formDataObj,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setFormData((prev) => ({ ...prev, logo_url: data.url }));
-      })
-      .catch((err) => console.error("Error uploading logo:", err));
-  };
-
-  // This will handle form submission to update the store
+  // This will handle form submission to create or update the store
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
-    const serverErrors = await dispatch(thunkUpdateMyStore(formData));
+
+    let serverErrors;
+    if (store) {
+      // If a store exists, update it
+      serverErrors = await dispatch(thunkUpdateMyStore(formData));
+    } else {
+      // If no store exists, create a new one
+      serverErrors = await dispatch(thunkCreateMyStore(formData));
+    }
+
     if (serverErrors) {
       setErrors(serverErrors);
     } else {
@@ -117,6 +101,9 @@ function StoreSettings() {
     if (window.confirm("Are you sure you want to delete your store? This action cannot be undone.")) {
       const serverErrors = await dispatch(thunkDeleteMyStore());
       if (!serverErrors) {
+        // This will clear Redux store immediately
+        dispatch(clearStore());
+
         // This will reset the form instantly after deleting
         setFormData({
           name: "",
@@ -125,6 +112,9 @@ function StoreSettings() {
           description: "",
         });
         setLogoPreview("");
+
+        // Redirect user to dashboard after delete
+        navigate("/dashboard");
       }
     }
   };
@@ -164,17 +154,6 @@ function StoreSettings() {
               onChange={handleChange}
               className="store-settings-input"
               placeholder="Image URL"
-            />
-          </label>
-
-          {/* This is the file upload */}
-          <label className="store-settings-label">
-            Or choose file
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleLogoFile}
-              className="store-settings-file"
             />
           </label>
 
@@ -220,7 +199,7 @@ function StoreSettings() {
             className="store-settings-button"
             disabled={!isValid}
           >
-            Save
+            {store ? "Update Store" : "Create Store"}
           </button>
 
           {/* This is the delete button (will only show if a store exists) */}

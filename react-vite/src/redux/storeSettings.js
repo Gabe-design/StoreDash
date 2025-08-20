@@ -16,6 +16,39 @@ export const clearStore = () => ({
 });
 
 // Thunks
+export const thunkCreateMyStore = (storeData) => async (dispatch) => {
+  // This will send a request to create a new store
+  const response = await fetch("/api/stores/", {
+    // This will use the POST method to create the store
+    method: "POST",
+    // This will set the headers to indicate JSON content
+    headers: { "Content-Type": "application/json" },
+    // This will include credentials for the request
+    credentials: "include",
+    // This will set the body of the request to the store data
+    body: JSON.stringify(storeData)
+  });
+
+  // This will check if the response is ok
+  if (response.ok) {
+    // This will parse the response as JSON
+    const data = await response.json();
+    // This will dispatch the action to set the store in the state
+    dispatch(setStore(data.store));
+    // This will return null if the creation was successful
+    return null;
+  // If the response is not ok, it will handle errors
+  } else if (response.status < 500) {
+    // This will parse the response as JSON to get error messages
+    return await response.json();
+  // If there is a server error, it will return a generic error message
+  } else {
+    // This will return a generic error message
+    return { server: "Something went wrong. Please try again" };
+  }
+};
+
+
 export const thunkGetMyStore = () => async (dispatch) => {
   // This will fetch the current user's store
   const response = await fetch("/api/stores/me", {
