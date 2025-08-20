@@ -28,6 +28,7 @@ class Product(db.Model):
     price = db.Column(db.Float, nullable=False)
     description = db.Column(db.String(500))
     image_url = db.Column(db.String(255))
+    in_stock = db.Column(db.Boolean, default=True, nullable=False)
 
     # These are the relationships for the product model
     tags = db.relationship('Tag', secondary=product_tags, back_populates='products')
