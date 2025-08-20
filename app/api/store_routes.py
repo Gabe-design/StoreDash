@@ -13,7 +13,7 @@ def get_user_store():
     """Get the store for the current user."""
 
     # This will get the store for the current user
-    store = Store.query.filter_by(user_id=current_user.id, active=True).first()
+    store = Store.query.filter_by(user_id=current_user.id).first()
 
     # If the store is found, it will return the store in a dictionary format
     if store:
@@ -30,13 +30,13 @@ def create_store():
     # This will validate the form data for creating a store
     # And it will set the CSRF token from the request cookies
     form = StoreForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
+    form.csrf_token.data = request.cookies.get('csrf_token')
 
     # This will check if the store already exists for the current user
     if form.validate_on_submit():
-        # This will check if the user already has an active store
-        if Store.query.filter_by(user_id=current_user.id, active=True).first():
-            # If the user already has an active store, it will return an error
+        # This will check if the user already has a store
+        if Store.query.filter_by(user_id=current_user.id).first():
+            # If the user already has a store, it will return an error
             return {'errors': {'message': 'Store already exists for this user.'}}, 400
 
         # This will create a new store with the form data
@@ -45,17 +45,20 @@ def create_store():
             name=form.data['name'],
             logo_url=form.data.get('logo_url'),
             theme_color=form.data.get('theme_color'),
-            description=form.data.get('description'),
-            # Set the store as active by default for soft delete functionality
-            active=True
+            description=form.data.get('description')
         )
 
-        # This will add the store to the database
-        db.session.add(store)
-        # This will commit the changes to the database
-        db.session.commit()
-        # This will return the created store in a dictionary format
-        return {'store': store.to_dict()}, 201
+        try:
+            # This will add the store to the database
+            db.session.add(store)
+            # This will commit the changes to the database
+            db.session.commit()
+            # This will return the created store in a dictionary format
+            return {'store': store.to_dict()}, 201
+        except Exception as e:
+            db.session.rollback()
+            return {'errors': {'message': 'Database error', 'details': str(e)}}, 500
+
     # If the form is not valid, it will return the errors
     return {'errors': form.errors}, 400
 
@@ -66,12 +69,12 @@ def create_store():
 def update_my_store():
     """Update the store for the current user, or create it if none exists."""
 
-    # This will attempt to get the store for the current user that is still active
-    store = Store.query.filter_by(user_id=current_user.id, active=True).first()
+    # This will attempt to get the store for the current user
+    store = Store.query.filter_by(user_id=current_user.id).first()
 
     # This will validate the form data for creating/updating the store
     form = StoreForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
+    form.csrf_token.data = request.cookies.get('csrf_token')
 
     # If the form is valid, proceed
     if form.validate_on_submit():
@@ -88,39 +91,43 @@ def update_my_store():
                 name=form.data.get('name'),
                 logo_url=form.data.get('logo_url'),
                 theme_color=form.data.get('theme_color'),
-                description=form.data.get('description'),
-                # Set the store as active by default for soft delete functionality
-                active=True
+                description=form.data.get('description')
             )
             db.session.add(store)  # This will add the new store to the session
 
-        # This will commit either the updates or the new store to the database
-        db.session.commit()
-
-        # This will return the updated or newly created store in a dictionary format
-        return {'store': store.to_dict()}
+        try:
+            # This will commit either the updates or the new store to the database
+            db.session.commit()
+            # This will return the updated or newly created store in a dictionary format
+            return {'store': store.to_dict()}
+        except Exception as e:
+            db.session.rollback()
+            return {'errors': {'message': 'Database error', 'details': str(e)}}, 500
 
     # If the form is not valid, return the validation errors
     return {'errors': form.errors}, 400
 
 
-# This route deletes the store for the current user (soft delete)
+# This route deletes the store for the current user (hard delete)
 @store_routes.route('/me', methods=['DELETE'])
 @login_required
 def delete_my_store():
-    """Soft delete (archive) the store for the current user."""
+    """Permanently delete the store for the current user."""
 
     # This will get the store for the current user
-    # It will also ensure that the store is active
-    store = Store.query.filter_by(user_id=current_user.id, active=True).first()
+    store = Store.query.filter_by(user_id=current_user.id).first()
 
     # If the store is not found, it will return an error
     if not store:
         return {'errors': {'message': 'Store not found.'}}, 404
 
-    # This will set the store's active status to False (soft delete)
-    store.active = False
-    # This will commit the changes to the database
-    db.session.commit()
-    # This will return a success message
-    return {'message': 'Store archived.'}
+    try:
+        # This will permanently delete the store from the database
+        db.session.delete(store)
+        # This will commit the changes to the database
+        db.session.commit()
+        # This will return a success message
+        return {'message': 'Store permanently deleted.'}
+    except Exception as e:
+        db.session.rollback()
+        return {'errors': {'message': 'Database error', 'details': str(e)}}, 500

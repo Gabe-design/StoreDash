@@ -15,14 +15,14 @@ function PublicStore() {
   const [orderForm, setOrderForm] = useState({
     buyer_name: "",
     buyer_email: "",
-    product_names: "",
+    product_names: [], // now an array, not a string
   });
 
   // This will disable the purchase button until form is valid
   const isOrderValid =
     orderForm.buyer_name.trim().length > 0 &&
     orderForm.buyer_email.trim().length > 0 &&
-    orderForm.product_names.trim().length > 0;
+    orderForm.product_names.length > 0; // must pick at least 1 product
 
   // This will fetch the public store data when the component mounts
   useEffect(() => {
@@ -48,35 +48,42 @@ function PublicStore() {
       });
   }, [storeName]);
 
-  // This will handle changes in the order form
+  // This will handle changes in the buyer info form fields
   const handleOrderChange = (e) => {
     const { name, value } = e.target;
     setOrderForm({ ...orderForm, [name]: value });
+  };
+
+  // This will handle selecting or deselecting products
+  const handleProductSelect = (productName) => {
+    setOrderForm((prev) => {
+      const alreadySelected = prev.product_names.includes(productName);
+      return {
+        ...prev,
+        product_names: alreadySelected
+          ? prev.product_names.filter((p) => p !== productName) // remove if already selected
+          : [...prev.product_names, productName], // add new
+      };
+    });
   };
 
   // This will handle submitting the order form
   const handleOrderSubmit = (e) => {
     e.preventDefault();
 
-    // This will transform product_names (comma-separated string) into a list of strings
-    const payload = {
-      buyer_name: orderForm.buyer_name,
-      buyer_email: orderForm.buyer_email,
-      product_names: orderForm.product_names
-        .split(",")
-        .map((name) => name.trim())
-        .filter((name) => name.length > 0),
-    };
-
     fetch(`/api/public/stores/${storeName}/orders`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload), // This sends product_names as a list of strings
+      body: JSON.stringify(orderForm), // send array directly
     })
       .then((res) => res.json())
-      .then(() => {
-        alert("Order placed successfully!");
-        setOrderForm({ buyer_name: "", buyer_email: "", product_names: "" });
+      .then((data) => {
+        if (data.errors) {
+          alert(data.errors.message);
+        } else {
+          alert("Order placed successfully!");
+          setOrderForm({ buyer_name: "", buyer_email: "", product_names: [] });
+        }
       })
       .catch(() => alert("Failed to place order."));
   };
@@ -150,12 +157,30 @@ function PublicStore() {
             <div key={product.id} className="public-store-product">
               <img src={product.image_url} alt={product.title} />
               <h3>{product.title}</h3>
-              <span className="public-store-tag">{product.tags.join(", ")}</span>
+              <span className="public-store-tag">
+                {product.tags.join(", ")}
+              </span>
               <p>Unit Cost: ${product.price}</p>
               {product.in_stock ? (
-                <span className="public-store-stock in-stock">✔ In stock</span>
+                <span className="public-store-stock in-stock">
+                  ✔ In stock
+                </span>
               ) : (
-                <span className="public-store-stock out-of-stock">✘ Out of stock</span>
+                <span className="public-store-stock out-of-stock">
+                  ✘ Out of stock
+                </span>
+              )}
+
+              {/* Checkbox for selecting product */}
+              {product.in_stock && (
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={orderForm.product_names.includes(product.title)}
+                    onChange={() => handleProductSelect(product.title)}
+                  />{" "}
+                  Add to order
+                </label>
               )}
             </div>
           ))
@@ -180,13 +205,15 @@ function PublicStore() {
           value={orderForm.buyer_email}
           onChange={handleOrderChange}
         />
-        <input
-          type="text"
-          name="product_names"
-          placeholder="Enter products you wish to buy (comma-separated)"
-          value={orderForm.product_names}
-          onChange={handleOrderChange}
-        />
+
+        {/* Removed free text input for products */}
+        <p>
+          Selected products:{" "}
+          {orderForm.product_names.length > 0
+            ? orderForm.product_names.join(", ")
+            : "None"}
+        </p>
+
         <button type="submit" disabled={!isOrderValid}>
           Complete Purchase
         </button>
