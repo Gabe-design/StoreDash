@@ -37,49 +37,51 @@ def public_storefront(store_name):
 # This is the route to create an order for a public store
 @public_routes.route('/stores/<string:store_name>/orders', methods=['POST'])
 def public_create_order(store_name):
-    """Public: Create a new order for a store using store name."""
+    """Public: Create a new order for a store using store name and product names."""
     # This is the public route to create an order for a store by its name
     store = Store.query.filter_by(name=store_name, active=True).first()
     if not store:
         return {'errors': {'message': 'Store not found.'}}, 404
+
     # This is the data from the request to create an order
     data = request.get_json() or {}
     buyer_name = data.get('buyer_name')
     buyer_email = data.get('buyer_email')
-    product_ids = data.get('product_ids', [])
+    product_names = data.get('product_names', [])
 
     # This will validate required fields
-    if not buyer_name or not buyer_email or not product_ids:
+    if not buyer_name or not buyer_email or not product_names:
         return {
             'errors': {
-                'message': 'buyer_name, buyer_email, and product_ids are required.'
+                'message': 'buyer_name, buyer_email, and product_names are required.'
             }
         }, 400
 
-    # To ensure product_ids is a list of ints
-    if not isinstance(product_ids, list) or not all(isinstance(pid, int) for pid in product_ids):
-        return {'errors': {'message': 'product_ids must be a list of integers.'}}, 400
+    # To ensure product_names is a list of strings
+    if not isinstance(product_names, list) or not all(isinstance(name, str) for name in product_names):
+        return {'errors': {'message': 'product_names must be a list of strings.'}}, 400
 
-    # This is to query products for this store
+    # This is to query products for this store by name
     products = Product.query.filter(
-        Product.id.in_(product_ids),
+        Product.title.in_(product_names),
         Product.store_id == store.id
     ).all()
+
     # If no products found or mismatch in count, return error
-    if not products or len(products) != len(product_ids):
+    if not products or len(products) != len(product_names):
         return {'errors': {'message': 'Some products not found for this store.'}}, 400
 
     # This calculates total price
     total_price = sum(p.price for p in products)
 
-    # This creatse the order
+    # This creates the order
     order = Order(
         store_id=store.id,
         buyer_name=buyer_name,
         buyer_email=buyer_email,
         total_price=total_price,
         # Always defaults to pending
-        status='pending'  
+        status='pending'
     )
     # This associates products with the order
     order.products = products

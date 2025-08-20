@@ -1,1 +1,53 @@
 /* react-vite/src/components/PublicOrderForm/PublicOrderForm.css */
+
+/* Page wrapper */
+.public-order-form-page {
+  padding: 20px;
+}
+
+/* Title heading */
+.public-order-form-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Form layout */
+.public-order-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+}
+
+/* Labels */
+.public-order-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Inputs */
+.public-order-form input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+/* Submit button */
+.public-order-form-submit {
+  background-color: #2d89ef;
+  color: #fff;
+  padding: 10px 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Hover state */
+.public-order-form-submit:hover {
+  background-color: #1b5dbf;
+}

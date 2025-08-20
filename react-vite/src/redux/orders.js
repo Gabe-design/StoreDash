@@ -81,11 +81,11 @@ export const thunkDeleteOrder = (orderId) => async (dispatch) => {
 };
 
 export const thunkCreatePublicOrder = (storeName, payload) => async (dispatch) => {
-  // This will create a new order for a public store
+  // This will create a new order for a public store using product names
   const response = await fetch(`/api/public/stores/${storeName}/orders`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload) // payload should include buyer_name, buyer_email, product_names
   });
   if (response.ok) {
     const data = await response.json();

@@ -1,1 +1,51 @@
 /* react-vite/src/components/OrderList/OrderList.css */
+
+
+/* Page wrapper */
+.order-details-page {
+  padding: 20px;
+}
+
+/* Title heading */
+.order-details-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Details table */
+.order-details-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+/* Table cells */
+.order-details-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 14px;
+}
+
+/* Status dropdown */
+.order-details-select {
+  padding: 6px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Save button */
+.order-details-save {
+  background-color: #2d89ef;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Save button hover */
+.order-details-save:hover {
+  background-color: #1b5dbf;
+}
