@@ -30,7 +30,7 @@ function ProductForm() {
     description: "",
     image_url: "",
     tags: "",
-    in_stock: true,
+    in_stock: true, // This will default to "in stock"
   });
 
   // This will store any validation or server errors
@@ -52,7 +52,7 @@ function ProductForm() {
         description: productToEdit.description || "",
         image_url: productToEdit.image_url || "",
         tags: productToEdit.tags?.join(", ") || "",
-        in_stock: productToEdit.in_stock ?? true,
+        in_stock: productToEdit.in_stock ?? true, // This will prefill the stock status
       });
     }
   }, [productToEdit]);
@@ -60,7 +60,13 @@ function ProductForm() {
   // This will handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+
+    // This will convert the in_stock field into a boolean
+    if (name === "in_stock") {
+      setFormData({ ...formData, [name]: value === "true" });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   // This will handle form submission for create/update
@@ -77,11 +83,11 @@ function ProductForm() {
       serverErrors = await dispatch(thunkAddProduct(formData));
     }
 
-    // If there are server errors, set them in state
+    // This will set errors if the server returns any
     if (serverErrors) {
       setErrors(serverErrors);
     } else {
-      // If successful, go back to the product list
+      // This will redirect back to the product list if successful
       navigate("/dashboard/products");
     }
   };
@@ -118,9 +124,7 @@ function ProductForm() {
               required
             />
           </label>
-          {errors.title && (
-            <p className="product-form-error">{errors.title}</p>
-          )}
+          {errors.title && <p className="product-form-error">{errors.title}</p>}
 
           {/* Product price */}
           <label className="product-form-label">
@@ -136,9 +140,7 @@ function ProductForm() {
               required
             />
           </label>
-          {errors.price && (
-            <p className="product-form-error">{errors.price}</p>
-          )}
+          {errors.price && <p className="product-form-error">{errors.price}</p>}
 
           {/* Product description */}
           <label className="product-form-label">
@@ -184,6 +186,23 @@ function ProductForm() {
             />
           </label>
           {errors.tags && <p className="product-form-error">{errors.tags}</p>}
+
+          {/* Product stock */}
+          <label className="product-form-label">
+            In Stock
+            <select
+              name="in_stock"
+              value={formData.in_stock}
+              onChange={handleChange}
+              className="product-form-input"
+            >
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </label>
+          {errors.in_stock && (
+            <p className="product-form-error">{errors.in_stock}</p>
+          )}
 
           {/* Save button */}
           <button type="submit" className="product-form-button">
