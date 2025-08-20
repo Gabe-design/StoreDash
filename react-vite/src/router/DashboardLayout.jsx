@@ -2,7 +2,7 @@
 
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar/Sidebar";
-import "../components/DashBoard/DashboardHome.css";
+// import "../components/DashBoard/DashboardHome.css";
 
 export default function DashboardLayout() {
   return (
