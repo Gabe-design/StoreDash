@@ -10,7 +10,7 @@ def seed_products():
     mug_tag = Tag(name="mug")
     shirt_tag = Tag(name="shirt")
 
-    # This ddds tags to the session
+    # This adds tags to the session
     db.session.add_all([summer_tag, mug_tag, shirt_tag])
     # This ensures tags have IDs for relationship
     db.session.flush() 
@@ -47,7 +47,7 @@ def seed_products():
     product3.tags.append(shirt_tag)
 
     # This will add the products to the session
-    # And it will commit the changes to the database
+    # And then it will commit the changes to the database
     db.session.add_all([product1, product2, product3])
     db.session.commit()
 
@@ -55,10 +55,10 @@ def seed_products():
 def undo_products():
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.product_tags RESTART IDENTITY CASCADE;")
-        db.session.execute(f"TRUNCATE table {SCHEMA}.tags RESTART IDENTITY CASCADE;")
         db.session.execute(f"TRUNCATE table {SCHEMA}.products RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.tags RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM product_tags"))
-        db.session.execute(text("DELETE FROM tags"))
         db.session.execute(text("DELETE FROM products"))
+        db.session.execute(text("DELETE FROM tags"))
     db.session.commit()
