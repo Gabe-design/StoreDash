@@ -7,8 +7,11 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 product_tags = db.Table(
     # This is the name of the table
     'product_tags',
-    db.Column('product_id', db.Integer, db.ForeignKey(add_prefix_for_prod('products.id'))),
-    db.Column('tag_id', db.Integer, db.ForeignKey(add_prefix_for_prod('tags.id')))
+    db.Model.metadata,
+    db.Column('product_id', db.Integer, db.ForeignKey(add_prefix_for_prod('products.id')), primary_key=True),
+    db.Column('tag_id', db.Integer, db.ForeignKey(add_prefix_for_prod('tags.id')), primary_key=True),
+    # This will ensure the table goes into the correct schema in production
+    schema=SCHEMA if environment == "production" else None
 )
 
 # This is the Product model
