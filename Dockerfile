@@ -4,7 +4,7 @@ WORKDIR /frontend
 COPY react-vite/package*.json ./
 RUN npm install
 COPY react-vite/ .
-RUN npm run build
+RUN npm run build --watch
 
 # This will build the Flask backend
 FROM python:3.9.18-alpine3.18
