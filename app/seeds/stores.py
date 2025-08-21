@@ -11,7 +11,6 @@ def seed_stores():
         logo_url="https://placehold.co/200x200",
         theme_color="#123abc",
         description="Cool shop!",
-        active=True
     )
     store2 = Store(
         user_id=2,
@@ -19,7 +18,7 @@ def seed_stores():
         logo_url="https://placehold.co/200x200",
         theme_color="#ff6600",
         description="All mugs, all the time.",
-        active=True
+        
     )
     store3 = Store(
         user_id=3,
@@ -27,7 +26,6 @@ def seed_stores():
         logo_url="https://placehold.co/200x200",
         theme_color="#0099ff",
         description="Trendy shirts for everyone.",
-        active=True
     )
 
     db.session.add_all([store1, store2, store3])

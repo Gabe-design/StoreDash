@@ -39,7 +39,7 @@ def public_storefront(store_name):
 def public_create_order(store_name):
     """Public: Create a new order for a store using store name and product names."""
     # This is the public route to create an order for a store by its name
-    store = Store.query.filter_by(name=store_name, active=True).first()
+    store = Store.query.filter_by(name=store_name).first()
     if not store:
         return {'errors': {'message': 'Store not found.'}}, 404
 
