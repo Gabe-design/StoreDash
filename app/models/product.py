@@ -1,6 +1,7 @@
 # app/modesl/product.py
 
 from .db import db, environment, SCHEMA, add_prefix_for_prod
+from .order import order_products 
 
 # This is the many-to-many relationship table for products and tags
 # This allows a product to have multiple tags and a tag to be associated with multiple products
@@ -35,7 +36,7 @@ class Product(db.Model):
 
     # These are the relationships for the product model
     tags = db.relationship('Tag', secondary=product_tags, back_populates='products')
-    orders = db.relationship('Order', secondary='order_products', back_populates='products')
+    orders = db.relationship('Order', secondary=order_products, back_populates='products')
 
     # This is the method to convert the product to a dictionary format
     # This is useful for returning the product data in API responses
