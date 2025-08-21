@@ -8,10 +8,13 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 order_products = db.Table(
     # This is the name of the table
     'order_products',
+    db.Model.metadata,
     # This is the foreign key to the orders table
     db.Column('order_id', db.Integer, db.ForeignKey(add_prefix_for_prod('orders.id')), primary_key=True),
     # This is the foreign key to the products table
     db.Column('product_id', db.Integer, db.ForeignKey(add_prefix_for_prod('products.id')), primary_key=True),
+    # This will ensure the table goes into the correct schema in production
+    schema=SCHEMA if environment == "production" else None
 )
 
 # This is the Order model
