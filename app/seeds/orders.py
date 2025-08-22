@@ -50,8 +50,19 @@ def seed_orders():
 # This will undo the orders by truncating the order_products table and orders table
 def undo_orders():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.order_products RESTART IDENTITY CASCADE;")
-        db.session.execute(f"TRUNCATE table {SCHEMA}.orders RESTART IDENTITY CASCADE;")
+        db.session.execute(f"CREATE SCHEMA IF NOT EXISTS {SCHEMA};")
+        exists = db.session.execute(
+            text("SELECT to_regclass(:qname)"),
+            {"qname": f"{SCHEMA}.order_products"}
+        ).scalar()
+        if exists:
+            db.session.execute(f"TRUNCATE table {SCHEMA}.order_products RESTART IDENTITY CASCADE;")
+        exists = db.session.execute(
+            text("SELECT to_regclass(:qname)"),
+            {"qname": f"{SCHEMA}.orders"}
+        ).scalar()
+        if exists:
+            db.session.execute(f"TRUNCATE table {SCHEMA}.orders RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM order_products"))
         db.session.execute(text("DELETE FROM orders"))
