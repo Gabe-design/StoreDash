@@ -29,7 +29,12 @@ def seed_users():
 # it will reset the primary keys for you as well.
 def undo_users():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
+        db.session.execute(f"CREATE SCHEMA IF NOT EXISTS {SCHEMA};")
+        exists = db.session.execute(
+            text("SELECT to_regclass(:qname)"), {"qname": f"{SCHEMA}.users"}
+        ).scalar()
+        if exists:
+            db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM users"))
         
