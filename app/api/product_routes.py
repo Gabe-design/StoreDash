@@ -15,10 +15,10 @@ def get_products():
     """Query for all products for the current user's store and returns them in a list of product dictionaries."""
 
     # This will get the store for the current user
-    # And iff the store is not found, it will return an error
+    # And if the store is not found, it will return an empty list
     store = Store.query.filter_by(user_id=current_user.id).first()
     if not store:
-        return {'errors': {'message': 'Store not found.'}}, 404
+        return {'products': []}, 200
 
     # This will query all products for the store
     # And it will return the products in a list of dictionaries

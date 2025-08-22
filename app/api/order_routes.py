@@ -17,9 +17,9 @@ def get_orders():
     """Query for all orders for the current user's store."""
     # This will get the store for the current user
     store = Store.query.filter_by(user_id=current_user.id).first()
-    # If the store is not found, it will return an error
+    # If the store is not found, it will return an empty list
     if not store:
-        return {'errors': {'message': 'Store not found.'}}, 404
+        return {'orders': []}, 200
     # This will query all orders for the store
     orders = Order.query.filter_by(store_id=store.id).all()
     # This will return the orders in a list of dictionaries
@@ -28,28 +28,28 @@ def get_orders():
 # Commented out to avoid confusion with public order creation
 # @order_routes.route('', methods=['POST'])
 # def create_order():
-
+#
 #     """Public: Create a new order for a store. (No login required)"""
-
+#
 #     data = request.get_json() or {}
 #     store_id = data.get('store_id')
 #     store = Store.query.get(store_id)
-
+#
 #     if not store:
 #         return {'errors': {'message': 'Store not found.'}}, 404
-
+#
 #     form = OrderCreateForm(data=data)
 #     form['csrf_token'].data = request.cookies.get('csrf_token', '')
-
+#
 #     if form.validate_on_submit():
 #         product_ids = data.get('products', [])
 #         if not isinstance(product_ids, list) or not all(isinstance(pid, int) for pid in product_ids):
 #             return {'errors': {'message': 'Products must be a list of integers.'}}, 400
-
+#
 #         products = Product.query.filter(Product.id.in_(product_ids), Product.store_id == store.id).all()
 #         if len(products) != len(product_ids):
 #             return {'errors': {'message': 'Some products not found for this store.'}}, 400
-
+#
 #         order = Order(
 #             store_id=store.id,
 #             buyer_name=form.data['buyer_name'],
@@ -60,7 +60,7 @@ def get_orders():
 #         db.session.add(order)
 #         db.session.commit()
 #         return {'order': order.to_dict()}, 201
-
+#
 #     return {'errors': form.errors}, 400
 
 # This route gets an order by its ID for the current user's store

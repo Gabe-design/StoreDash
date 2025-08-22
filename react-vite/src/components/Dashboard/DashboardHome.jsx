@@ -31,13 +31,16 @@ export default function DashboardHome() {
         .replace(/\b\w/g, (c) => c.toUpperCase())
     : null;
 
-  useEffect(() => {
+    useEffect(() => {
+    // A guard so we refetch right after login and avoid running before a user exists
+    if (!user?.id) return;
+
     dispatch(thunkGetMyStore());
     // This will get the current user's products
     dispatch(thunkGetProducts());
     // This will get the current user's orders
     dispatch(thunkGetOrders());
-  }, [dispatch]);
+  }, [dispatch, user?.id]);
 
   // If no user is logged in, this will redirect to the login page
   if (!user) return null;
