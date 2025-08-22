@@ -10,7 +10,16 @@
 }
 
 .dashboard-header {
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-header h1 {
+  /* This is so it'll remove default h1 margins so it truly centers */
+  margin: 0;
+  /* and this will ensure text is centered inside */
+  text-align: center;
 }
 
 .dashboard-quick-stats {
@@ -36,7 +45,7 @@
 .dashboard-btn {
   padding: 10px 20px;
   background-color: rgb(0, 209, 0);
-  color: white;
+  color: black;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -44,4 +53,17 @@
 
 .dashboard-btn:hover {
   background-color: green;
+}
+
+.dashboard-hero {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0 24px;
+}
+
+.dashboard-hero-img {
+  max-width: 420px;
+  width: 100%;
+  height: auto;
+  display: block;
 }

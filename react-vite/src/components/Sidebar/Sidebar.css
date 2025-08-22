@@ -1,7 +1,7 @@
 .sidebar {
   width: 220px;
-  background-color: #343a40;
-  color: white;
+  background-color: white;
+  color: black;
   display: flex;
   flex-direction: column;
   padding: 20px 10px;
@@ -24,16 +24,16 @@
   padding: 10px 15px;
   border-radius: 4px;
   text-decoration: none;
-  color: white;
+  color: black;
   transition: background-color 0.2s;
 }
 
 .sidebar-link:hover {
-  background-color: #495057;
+  background-color: rgb(1, 193, 1);
 }
 
 .sidebar-link.active {
-  background-color: #007bff;
+  background-color: rgb(1, 193, 1);
 }
 
 .sidebar-footer {

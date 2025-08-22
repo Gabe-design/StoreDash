@@ -64,7 +64,7 @@ export default function Sidebar() {
         {/* This will show 'Add Product' only if a store exists but no products are found */}
         {store && products.length === 0 && (
           <NavLink to="/dashboard/products/new" className="sidebar-link sidebar-add-product">
-            ➕ Add Product
+            ✅ Add Product
           </NavLink>
         )}
       </nav>

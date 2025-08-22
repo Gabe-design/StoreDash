@@ -7,7 +7,6 @@ import { thunkGetMyStore } from "../../redux/storeSettings";
 import { thunkGetProducts } from "../../redux/products";
 import { thunkGetOrders } from "../../redux/orders";
 import "./DashboardHome.css";
-// import Sidebar from "../Sidebar/Sidebar";
 
 // This is the main dashboard page
 export default function DashboardHome() {
@@ -21,6 +20,16 @@ export default function DashboardHome() {
   const store = useSelector((state) => state.store.current);
   const products = useSelector((state) => state.products.list);
   const orders = useSelector((state) => state.orders.list);
+
+  /* This will make a cool and friendly nickname from the user's email 
+  they use to sign up (e.g., "alex.smith_92" -> "Alex Smith 92")
+  */
+  const nickname = user?.email
+    ? user.email
+        .split("@")[0]
+        .replace(/[._-]+/g, " ")
+        .replace(/\b\w/g, (c) => c.toUpperCase())
+    : null;
 
   useEffect(() => {
     dispatch(thunkGetMyStore());
@@ -41,8 +50,19 @@ export default function DashboardHome() {
       {/* This is the main dashboard content */}
       <main className="dashboard-main">
         <header className="dashboard-header">
-          <h1>Welcome{/*{user.email}*/}!</h1>
+          <h1>
+            {/* Personalized + on-brand greeting using email local-part */}
+            {store
+              ? `Welcome back${nickname ? `, ${nickname}` : ""}!`
+              : "Welcome to StoreDash"}
+            {/*{user.email}*/}
+          </h1>
         </header>
+
+        {/* This will show the hero image centered on the page */}
+        <section className="dashboard-hero">
+          <img src="/StoreDash.png" alt="StoreDash storefront" className="dashboard-hero-img" />
+        </section>
 
         <section className="dashboard-quick-stats">
           <div className="stat-card">
