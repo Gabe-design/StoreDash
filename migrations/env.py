@@ -5,6 +5,10 @@ from flask import current_app
 
 from alembic import context
 
+# NEW: imports for schema handling (kept minimal)
+import sqlalchemy as sa
+from app.models import environment as APP_ENV, SCHEMA as APP_SCHEMA
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -64,8 +68,16 @@ def run_migrations_offline():
 
     """
     url = config.get_main_option("sqlalchemy.url")
+
+    # NEW: keep version table in custom schema for offline runs, too
+    _schema = APP_SCHEMA if APP_ENV == "production" else None
+
     context.configure(
-        url=url, target_metadata=get_metadata(), literal_binds=True
+        url=url,
+        target_metadata=get_metadata(),
+        literal_binds=True,
+        version_table_schema=_schema,
+        include_schemas=True if _schema else False,
     )
 
     with context.begin_transaction():
@@ -97,6 +109,14 @@ def run_migrations_online():
     connectable = get_engine()
 
     with connectable.connect() as connection:
+        # NEW: use custom schema in production; create it and set search_path
+        _schema = APP_SCHEMA if APP_ENV == "production" else None
+        if _schema:
+            connection.execute(sa.text(f'CREATE SCHEMA IF NOT EXISTS "{_schema}"'))
+            connection.execute(sa.text(f'SET search_path TO "{_schema}"'))
+            conf_args["version_table_schema"] = _schema
+            conf_args["include_schemas"] = True
+
         context.configure(
             connection=connection,
             target_metadata=get_metadata(),
