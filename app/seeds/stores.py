@@ -34,7 +34,10 @@ def seed_stores():
 # This function will undo the stores
 def undo_stores():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.stores RESTART IDENTITY CASCADE;")
+        db.session.execute(f"CREATE SCHEMA IF NOT EXISTS {SCHEMA};")
+        exists = db.session.execute(text("SELECT to_regclass(:qname)"), {"qname": f"{SCHEMA}.stores"}).scalar()
+        if exists:
+            db.session.execute(f"TRUNCATE table {SCHEMA}.stores RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM stores"))
     db.session.commit()
