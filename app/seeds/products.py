@@ -21,7 +21,7 @@ def seed_products():
         title="Summer Tee",
         price=15.00,
         description="Lightweight t-shirt perfect for summer days.",
-        image_url="https://placehold.co/300x300"
+        image_url="https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg"
     )
     # This will add tags to the product
     product1.tags.append(summer_tag)

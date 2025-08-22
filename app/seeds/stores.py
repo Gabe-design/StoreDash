@@ -8,7 +8,7 @@ def seed_stores():
     store1 = Store(
         user_id=1,
         name="Store Dash",
-        logo_url="https://placehold.co/200x200",
+        logo_url="https://images.pexels.com/photos/12384851/pexels-photo-12384851.jpeg",
         theme_color="#123abc",
         description="Cool shop!",
     )
