@@ -9,7 +9,7 @@ def seed_stores():
         user_id=1,
         name="Store Dash",
         logo_url="https://images.pexels.com/photos/12384851/pexels-photo-12384851.jpeg",
-        theme_color="#123abc",
+        theme_color="rgb(216, 217, 150)",
         description="Cool shop!",
     )
     store2 = Store(

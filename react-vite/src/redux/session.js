@@ -11,22 +11,25 @@ const removeUser = () => ({
 });
 
 export const thunkAuthenticate = () => async (dispatch) => {
-	const response = await fetch("/api/auth/");
-	if (response.ok) {
-		const data = await response.json();
-		if (data.errors) {
-			return;
-		}
+  const response = await fetch("/api/auth/", {
+    credentials: "include"
+  });
+  if (response.ok) {
+    const data = await response.json();
+    if (data.errors) {
+      return;
+    }
 
-		dispatch(setUser(data));
-	}
+    dispatch(setUser(data));
+  }
 };
 
 export const thunkLogin = (credentials) => async dispatch => {
   const response = await fetch("/api/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(credentials)
+    body: JSON.stringify(credentials),
+    credentials: "include"
   });
 
   if(response.ok) {
@@ -44,7 +47,8 @@ export const thunkSignup = (user) => async (dispatch) => {
   const response = await fetch("/api/auth/signup", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(user)
+    body: JSON.stringify(user),
+    credentials: "include"
   });
 
   if(response.ok) {
@@ -59,7 +63,9 @@ export const thunkSignup = (user) => async (dispatch) => {
 };
 
 export const thunkLogout = () => async (dispatch) => {
-  await fetch("/api/auth/logout");
+  await fetch("/api/auth/logout", {
+    credentials: "include"
+  });
   dispatch(removeUser());
 };
 
