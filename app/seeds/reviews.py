@@ -1,5 +1,3 @@
-# app/seeds/reviews.py
-
 from app.models import db, Review, Product, environment, SCHEMA
 from sqlalchemy.sql import text
 from datetime import datetime
@@ -44,6 +42,7 @@ def seed_reviews():
 # This function will undo the reviews
 def undo_reviews():
     if environment == "production":
+        db.session.execute(f"CREATE SCHEMA IF NOT EXISTS {SCHEMA};")
         db.session.execute(f"TRUNCATE table {SCHEMA}.reviews RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM reviews"))
