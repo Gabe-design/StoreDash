@@ -5,6 +5,7 @@ import Layout from './Layout';
 // Added this for the sidebar layout on all dashboard pages
 import DashboardLayout from './DashboardLayout';
 import ProtectedRoute from './ProtectedRoute';
+import RequireStore from './RequireStore';
 
 // These are the authentication
 import LoginFormPage from '../components/LoginFormPage';
@@ -61,12 +62,26 @@ export const router = createBrowserRouter([
             children: [
               { path: "dashboard", element: <DashboardHome /> },
               { path: "dashboard/store", element: <StoreSettings /> },
-              { path: "dashboard/products", element: <ProductList /> },
-              { path: "dashboard/products/new", element: <ProductForm /> },
-              { path: "dashboard/products/:productId/edit", element: <ProductForm /> },
-              { path: "dashboard/orders", element: <OrderList /> },
-              { path: "dashboard/orders/:orderId", element: <OrderDetails /> },
-              { path: "dashboard/products/:productId/reviews", element: <ReviewList /> },
+              // { path: "dashboard/products", element: <ProductList /> },
+              // { path: "dashboard/products/new", element: <ProductForm /> },
+              // { path: "dashboard/products/:productId/edit", element: <ProductForm /> },
+              // { path: "dashboard/orders", element: <OrderList /> },
+              // { path: "dashboard/orders/:orderId", element: <OrderDetails /> },
+              // { path: "dashboard/products/:productId/reviews", element: <ReviewList /> },
+              // Im polishig so it will always allow a user to create/customize their store
+              // but everything else requires an existing store
+              {
+                element: <RequireStore />,
+                children: [
+                  // { path: "dashboard", element: <DashboardHome /> },
+                  { path: "dashboard/products", element: <ProductList /> },
+                  { path: "dashboard/products/new", element: <ProductForm /> },
+                  { path: "dashboard/products/:productId/edit", element: <ProductForm /> },
+                  { path: "dashboard/orders", element: <OrderList /> },
+                  { path: "dashboard/orders/:orderId", element: <OrderDetails /> },
+                  { path: "dashboard/products/:productId/reviews", element: <ReviewList /> },
+                ],
+              },
             ],
           },
         ],
