@@ -54,9 +54,16 @@ def seed_products():
 # This function will undo the products
 def undo_products():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.product_tags RESTART IDENTITY CASCADE;")
-        db.session.execute(f"TRUNCATE table {SCHEMA}.products RESTART IDENTITY CASCADE;")
-        db.session.execute(f"TRUNCATE table {SCHEMA}.tags RESTART IDENTITY CASCADE;")
+        db.session.execute(f"CREATE SCHEMA IF NOT EXISTS {SCHEMA};")
+        exists = db.session.execute(text("SELECT to_regclass(:qname)"), {"qname": f"{SCHEMA}.product_tags"}).scalar()
+        if exists:
+            db.session.execute(f"TRUNCATE table {SCHEMA}.product_tags RESTART IDENTITY CASCADE;")
+        exists = db.session.execute(text("SELECT to_regclass(:qname)"), {"qname": f"{SCHEMA}.products"}).scalar()
+        if exists:
+            db.session.execute(f"TRUNCATE table {SCHEMA}.products RESTART IDENTITY CASCADE;")
+        exists = db.session.execute(text("SELECT to_regclass(:qname)"), {"qname": f"{SCHEMA}.tags"}).scalar()
+        if exists:
+            db.session.execute(f"TRUNCATE table {SCHEMA}.tags RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM product_tags"))
         db.session.execute(text("DELETE FROM products"))
