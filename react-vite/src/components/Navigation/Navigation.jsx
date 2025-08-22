@@ -1,3 +1,5 @@
+// react-vite/src/components/Navigation/Navigation.jsx
+
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect, useRef } from "react";
@@ -76,7 +78,7 @@ function Navigation() {
   const hideNav =
     location.pathname === "/login" || location.pathname === "/signup";
 
-    // This will render a single “Create your own store for free” button on the public store front when no user is logged in
+  // This will render a single “Create your own store for free” button on the public store front when no user is logged in
   if (!hideNav && isPublicStore && !sessionUser) {
     return (
       <header
@@ -88,6 +90,7 @@ function Navigation() {
           {/* This is the logo and it will link to the home page */}
           <NavLink to="/" className="nav-logo">
             {/* <img src={logo} alt="StoreDash" /> */}
+            <img src="/favicon.ico" alt="StoreDash" className="nav-logo-icon" />
           </NavLink>
         </div>
 
@@ -100,7 +103,7 @@ function Navigation() {
       </header>
     );
   }
-    
+
   return (
     !hideNav && (
       <header
@@ -112,6 +115,7 @@ function Navigation() {
           {/* This is the logo and it will link to the home page */}
           <NavLink to="/" className="nav-logo">
             {/* <img src={logo} alt="StoreDash" /> */}
+            <img src="/favicon.ico" alt="StoreDash" className="nav-logo-icon" />
           </NavLink>
         </div>
 
@@ -132,7 +136,9 @@ function Navigation() {
               {/* This will link to the features page */}
               <NavLink
                 to="/features"
-                className={({ isActive }) => `cta-button ${isActive ? "cta-button--active" : ""}`}
+                className={({ isActive }) =>
+                  `cta-button ${isActive ? "cta-button--active" : ""}`
+                }
               >
                 Features
               </NavLink>
@@ -141,7 +147,9 @@ function Navigation() {
               <button
                 type="button"
                 onClick={() =>
-                  dispatch(thunkLogin({ email: "demo@example.com", password: "password123" }))
+                  dispatch(
+                    thunkLogin({ email: "demo@example.com", password: "password123" })
+                  )
                 }
                 className="cta-button"
               >
@@ -150,10 +158,7 @@ function Navigation() {
 
               {/* This is the container for the start selling button and dropdown */}
               <div className="start-selling-container" ref={dropdownRef}>
-                <button
-                  className="start-selling-button"
-                  onClick={handleStartSelling}
-                >
+                <button className="start-selling-button" onClick={handleStartSelling}>
                   Start Selling
                 </button>
                 {/* This will show the dropdown if open and user is not logged in */}

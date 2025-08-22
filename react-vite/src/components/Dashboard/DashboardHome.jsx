@@ -56,17 +56,21 @@ export default function DashboardHome() {
         </section>
 
         <section className="dashboard-actions">
-          <button
-            onClick={() => navigate("/dashboard/products/new")}
-            className="dashboard-btn"
-          >
-            Add Product
-          </button>
+          {/* This will show the 'Add Product' button only if a store exists */}
+          {store && (
+            <button
+              onClick={() => navigate("/dashboard/products/new")}
+              className="dashboard-btn"
+            >
+              Add Product
+            </button>
+          )}
           <button
             onClick={() => navigate("/dashboard/store")}
             className="dashboard-btn"
           >
-            Customize Store
+            {/* Button label changes when no store exists */}
+            {store ? "Customize Store" : "Customize Store to Begin"}
           </button>
           {store && (
             <button
