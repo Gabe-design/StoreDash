@@ -71,3 +71,41 @@
 .dropdown-item:hover {
   background-color: #f3f4f6;
 }
+
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  text-decoration: none;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+button.cta-button {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.cta-button:hover {
+  background-color: #f9fafb;
+  color: #4f46e5;
+}
+
+.cta-button:focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
+}
+
+.cta-button--active {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+  color: #111827;
+}

@@ -24,7 +24,7 @@ function SignupFormPage() {
   const [errors, setErrors] = useState({});
 
   // If the user is already logged in, this will redirect them to the home page
-  if (sessionUser) return <Navigate to="/" replace={true} />;
+  if (sessionUser) return <Navigate to="/dashboard" replace={true} />;
 
   // This will handle the signup form submission
   const handleSubmit = async (e) => {
@@ -50,8 +50,8 @@ function SignupFormPage() {
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
-      // If the signup is successful, this will navigate the user to the home page
-      navigate("/");
+      // If the signup is successful, this will navigate the user to the dahsboard page
+      navigate("/dashboard");
     }
   };
 

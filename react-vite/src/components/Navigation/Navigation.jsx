@@ -1,7 +1,7 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect, useRef } from "react";
-import { thunkLogout } from "../../redux/session";
+import { thunkLogout, thunkLogin } from "../../redux/session";
 import "./Navigation.css";
 // Dont forget to add the logo image
 
@@ -76,6 +76,31 @@ function Navigation() {
   const hideNav =
     location.pathname === "/login" || location.pathname === "/signup";
 
+    // This will render a single “Create your own store for free” button on the public store front when no user is logged in
+  if (!hideNav && isPublicStore && !sessionUser) {
+    return (
+      <header
+        className="nav-header"
+        // This will apply the public store theme color if available
+        style={{ backgroundColor: themeColor || "" }}
+      >
+        <div className="nav-left">
+          {/* This is the logo and it will link to the home page */}
+          <NavLink to="/" className="nav-logo">
+            {/* <img src={logo} alt="StoreDash" /> */}
+          </NavLink>
+        </div>
+
+        <div className="nav-right">
+          {/* This will link to the landing page for creating a store */}
+          <NavLink to="/" className="cta-button">
+            Powered by StoreDash.
+          </NavLink>
+        </div>
+      </header>
+    );
+  }
+    
   return (
     !hideNav && (
       <header
@@ -94,24 +119,34 @@ function Navigation() {
           {sessionUser ? (
             <>
               {/* This will link to the dashboard */}
-              <NavLink to="/dashboard" className="nav-link">
+              <NavLink to="/dashboard" className="cta-button">
                 Dashboard
               </NavLink>
               {/* This will log the user out when clicked */}
-              <button onClick={handleLogout} className="nav-link logout-button">
+              <button onClick={handleLogout} className="cta-button">
                 Logout
               </button>
             </>
           ) : (
             <>
               {/* This will link to the features page */}
-              <NavLink to="/features" className="nav-link">
+              <NavLink
+                to="/features"
+                className={({ isActive }) => `cta-button ${isActive ? "cta-button--active" : ""}`}
+              >
                 Features
               </NavLink>
-              {/* This will link to the demo login page */}
-              <NavLink to="/demo-login" className="nav-link">
+
+              {/* This will log in as the demo user with pre-filled credentials */}
+              <button
+                type="button"
+                onClick={() =>
+                  dispatch(thunkLogin({ email: "demo@example.com", password: "password123" }))
+                }
+                className="cta-button"
+              >
                 Demo login
-              </NavLink>
+              </button>
 
               {/* This is the container for the start selling button and dropdown */}
               <div className="start-selling-container" ref={dropdownRef}>
