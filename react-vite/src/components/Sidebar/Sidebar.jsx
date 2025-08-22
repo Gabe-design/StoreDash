@@ -31,6 +31,11 @@ export default function Sidebar() {
       </div>
 
       <nav className="sidebar-nav">
+        {/* This will link to the dashboard home */}
+        <NavLink to="/dashboard" end className="sidebar-link">
+          Dashboard
+        </NavLink>
+
         {/* This will show the 'View Store' link only if the store exists in Redux */}
         {store && (
           <NavLink to={`/store/${store.name}`} className="sidebar-link">

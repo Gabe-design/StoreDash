@@ -67,3 +67,21 @@
   height: auto;
   display: block;
 }
+
+.dashboard-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  /* The space between buttons */
+  column-gap: 50px;
+  /* This is the space when they wrap on small screens */
+  row-gap: 12px;
+}
+
+/* Im going to use gap instead of margins for cleaner spacing */
+.dashboard-actions .dashboard-btn {
+  display: inline-block;
+  margin: 0;
+}
+
