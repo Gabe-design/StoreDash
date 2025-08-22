@@ -1,3 +1,5 @@
+# app/seeds/reviews.py
+
 from app.models import db, Review, Product, environment, SCHEMA
 from sqlalchemy.sql import text
 from datetime import datetime
@@ -43,7 +45,13 @@ def seed_reviews():
 def undo_reviews():
     if environment == "production":
         db.session.execute(f"CREATE SCHEMA IF NOT EXISTS {SCHEMA};")
-        db.session.execute(f"TRUNCATE table {SCHEMA}.reviews RESTART IDENTITY CASCADE;")
+        # only truncate if the table actually exists in this schema
+        exists = db.session.execute(
+            text("SELECT to_regclass(:qname)"),
+            {"qname": f"{SCHEMA}.reviews"}
+        ).scalar()
+        if exists:
+            db.session.execute(f"TRUNCATE table {SCHEMA}.reviews RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM reviews"))
     db.session.commit()
