@@ -38,7 +38,7 @@
 
 /* Submit button */
 .public-order-form-submit {
-  background-color: #2d89ef;
+  background-color: rgb(0, 209, 0);
   color: #fff;
   padding: 10px 16px;
   border: none;
@@ -49,5 +49,5 @@
 
 /* Hover state */
 .public-order-form-submit:hover {
-  background-color: #1b5dbf;
+  background-color: green;
 }

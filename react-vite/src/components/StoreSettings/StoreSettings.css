@@ -86,7 +86,7 @@
 .store-settings-button {
   align-self: flex-start;
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: rgb(0, 209, 0);
   color: white;
   border: none;
   border-radius: 4px;
@@ -95,7 +95,7 @@
 }
 
 .store-settings-button:hover {
-  background-color: #0056b3;
+  background-color: green;
 }
 
 /* Disabled save button */

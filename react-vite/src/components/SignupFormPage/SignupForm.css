@@ -56,12 +56,16 @@
 .signup-button {
     width: 100%;
     padding: 10px;
-    background-color: #6c63ff;
+    background-color: rgb(0, 209, 0);
     color: white;
     border: none;
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
+}
+
+.signup-button:hover {
+    background-color: green;
 }
 
 .signup-button:disabled {

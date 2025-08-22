@@ -1,13 +1,23 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import "./LandingPage.css";
 
 function LandingPage() {
   // This will initialize the navigation function for redirecting users
   const navigate = useNavigate();
 
+  // This will get the logged in user
+  const { user, restoring } = useSelector((s) => s.session || {});
+
   // This will store the user's email input for the hero signup
   const [email, setEmail] = useState("");
+
+  // So while it's restoring session, it renders nothing
+  if (restoring) return null;
+
+  // And adding this so if a user is already logged in -> straight to the /dashboard
+  if (user) return <Navigate to="/dashboard" replace />;
 
   // This will handle the "Start for free" button click
   const handleStartForFree = () => {
@@ -34,7 +44,9 @@ function LandingPage() {
             required
             className="hero-input"
           />
-          <button onClick={handleStartForFree} className="hero-button">
+          <button onClick={handleStartForFree} 
+          // disabled={!email} 
+          className="hero-button">
             Start for free
           </button>
         </div>
@@ -71,7 +83,7 @@ function LandingPage() {
       <footer className="landing-footer">
         <Link to="/about">About</Link> ·{" "}
         <Link to="/contact">Contact</Link> ·{" "}
-        <a href="https://github.com/your-repo" target="_blank" rel="noreferrer">
+        <a href="https://github.com/Gabe-design" target="_blank" rel="noreferrer">
           GitHub
         </a>
       </footer>

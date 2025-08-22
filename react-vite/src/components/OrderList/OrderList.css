@@ -36,7 +36,7 @@
 
 /* Save button */
 .order-details-save {
-  background-color: #2d89ef;
+  background-color: rgb(0, 209, 0);
   color: #fff;
   padding: 8px 16px;
   border: none;
@@ -47,5 +47,5 @@
 
 /* Save button hover */
 .order-details-save:hover {
-  background-color: #1b5dbf;
+  background-color: green;
 }
