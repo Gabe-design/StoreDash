@@ -17,7 +17,7 @@ def create_review():
     # This will validate the form data for creating a review
     form = ReviewForm()
     # This will set the CSRF token from the request cookies
-    form['csrf_token'].data = request.cookies['csrf_token']
+    form['csrf_token'].data = request.cookies.get('csrf_token', '')
     # This will get the product ID from the request data
     data = request.get_json() or {}
     # This will get the product by its ID
@@ -80,7 +80,7 @@ def update_review(id):
     # This will validate the form data for updating the review
     form = ReviewForm()
     # This will set the CSRF token from the request cookies
-    form['csrf_token'].data = request.cookies['csrf_token']
+    form['csrf_token'].data = request.cookies.get('csrf_token', '')
 
     # If the form is valid, it will update the review's rating and comment
     if form.validate_on_submit():

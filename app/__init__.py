@@ -20,9 +20,6 @@ from .models import db
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 
-# This print statement is for debugging purposes and mainly to confirm the flask app is running
-print("Dunder Name:", __name__)
-
 # Setup login manager
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'

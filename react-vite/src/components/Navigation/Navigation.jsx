@@ -146,11 +146,12 @@ function Navigation() {
               {/* This will log in as the demo user with pre-filled credentials */}
               <button
                 type="button"
-                onClick={() =>
-                  dispatch(
+                onClick={async () => {
+                  const err = await dispatch(
                     thunkLogin({ email: "demo@example.com", password: "password123" })
-                  )
-                }
+                  );
+                  if (!err) navigate("/dashboard");
+                }}
                 className="cta-button"
               >
                 Demo login

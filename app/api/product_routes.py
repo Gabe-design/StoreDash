@@ -35,7 +35,7 @@ def create_product():
     # This will validate the form data for creating a product
     # And then it will set the CSRF token from the request cookies
     form = ProductForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
+    form['csrf_token'].data = request.cookies.get('csrf_token', '')
 
     # This will get the store for the current user
     store = Store.query.filter_by(user_id=current_user.id).first()
@@ -108,7 +108,7 @@ def update_product(id):
     # This will validate the form data for updating the product
     # And it will also set the CSRF token from the request cookies
     form = ProductForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
+    form['csrf_token'].data = request.cookies.get('csrf_token', '')
 
     # This is for if the form is valid, it will update the product's details
     if form.validate_on_submit():

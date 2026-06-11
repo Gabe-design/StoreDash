@@ -102,9 +102,12 @@ function LoginFormPage() {
           {/* This will log in as the demo user with pre-filled credentials */}
           <button
             type="button"
-            onClick={() =>
-              dispatch(thunkLogin({ email: "demo@example.com", password: "password123" }))
-            }
+            onClick={async () => {
+              const err = await dispatch(
+                thunkLogin({ email: "demo@example.com", password: "password123" })
+              );
+              if (!err) navigate("/dashboard");
+            }}
             className="demo-button"
           >
             Login as demo user
