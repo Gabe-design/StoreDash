@@ -1,1 +1,97 @@
 /* react-vite/src/components/PublicReviewForm/PublicReviewForm.css */
+
+.public-review-form {
+  margin-top: 8px;
+  max-width: 520px;
+}
+
+.public-review-form-title {
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.public-review-form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.public-review-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.public-review-select {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 120px;
+}
+
+.public-review-textarea {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.public-review-error {
+  color: #e74c3c;
+  font-size: 13px;
+  margin: 0;
+}
+
+.public-review-form-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.public-review-submit-btn {
+  background: rgb(0, 209, 0);
+  color: black;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.public-review-submit-btn:hover {
+  background: green;
+  color: white;
+}
+
+.public-review-delete-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.public-review-delete-btn:hover {
+  background: #c0392b;
+}
+
+.public-review-cancel-btn {
+  background: #eee;
+  color: #333;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.public-review-cancel-btn:hover {
+  background: #ddd;
+}

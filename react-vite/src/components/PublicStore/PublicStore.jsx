@@ -11,6 +11,8 @@ function PublicStore() {
   const [error, setError] = useState(null);
   // This will store the search query for filtering products
   const [searchQuery, setSearchQuery] = useState("");
+  // This will store the active tag filter
+  const [activeTag, setActiveTag] = useState("");
   // This will store the order form data
   const [orderForm, setOrderForm] = useState({
     buyer_name: "",
@@ -116,10 +118,15 @@ function PublicStore() {
     return <p>Loading store...</p>;
   }
 
-  // This will filter products based on the search query
-  const filteredProducts = storeData.products.filter((product) =>
-    product.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Collect all unique tags across products
+  const allTags = [...new Set(storeData.products.flatMap((p) => p.tags || []))];
+
+  // Filter products by search query and active tag
+  const filteredProducts = storeData.products.filter((product) => {
+    const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesTag = activeTag ? product.tags?.includes(activeTag) : true;
+    return matchesSearch && matchesTag;
+  });
 
   return (
     <div className="public-store-page">
@@ -148,6 +155,27 @@ function PublicStore() {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="public-store-search"
         />
+
+        {/* Tag filter buttons */}
+        {allTags.length > 0 && (
+          <div className="public-store-tags">
+            <button
+              className={`public-store-tag-btn${activeTag === "" ? " active" : ""}`}
+              onClick={() => setActiveTag("")}
+            >
+              All
+            </button>
+            {allTags.map((tag) => (
+              <button
+                key={tag}
+                className={`public-store-tag-btn${activeTag === tag ? " active" : ""}`}
+                onClick={() => setActiveTag(activeTag === tag ? "" : tag)}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* This will display the products grid */}

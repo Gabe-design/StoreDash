@@ -42,6 +42,35 @@
   border-radius: 4px;
 }
 
+/* Tag filter buttons */
+.public-store-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.public-store-tag-btn {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 4px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.public-store-tag-btn:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.public-store-tag-btn.active {
+  background: white;
+  color: #333;
+  font-weight: 600;
+}
+
 /* Products grid */
 .public-store-products {
   display: grid;

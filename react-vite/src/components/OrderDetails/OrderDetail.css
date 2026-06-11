@@ -1,1 +1,93 @@
 /* react-vite/src/components/OrderDetails/OrderDetail.css */
+
+.order-details-page {
+  padding: 20px;
+}
+
+.order-details-back {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: #555;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.order-details-back:hover {
+  color: #000;
+}
+
+.order-details-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.order-details-products-title {
+  font-size: 18px;
+  margin: 20px 0 10px;
+}
+
+.order-details-loading {
+  padding: 20px;
+  color: #777;
+}
+
+.order-details-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.order-details-table td,
+.order-details-table th {
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.order-details-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+.order-details-select {
+  padding: 6px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.order-details-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.order-details-save {
+  background-color: rgb(0, 209, 0);
+  color: black;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.order-details-save:hover {
+  background-color: green;
+  color: white;
+}
+
+.order-details-delete {
+  background-color: #e74c3c;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.order-details-delete:hover {
+  background-color: #c0392b;
+}

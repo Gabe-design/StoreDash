@@ -1,1 +1,114 @@
-/* react-vite/src/components/ProductList/ProductList.css */
+/* react-vite/src/components/PublicProduct/PublicProduct.css */
+
+.public-product-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+
+.public-product-back {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #555;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.public-product-back:hover {
+  color: #000;
+}
+
+.public-product-loading,
+.public-product-error {
+  padding: 40px 20px;
+  text-align: center;
+  color: #666;
+}
+
+.public-product-detail {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.public-product-image {
+  width: 320px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  object-fit: cover;
+}
+
+.public-product-info {
+  flex: 1;
+  min-width: 200px;
+}
+
+.public-product-title {
+  font-size: 28px;
+  margin: 0 0 10px;
+}
+
+.public-product-price {
+  font-size: 22px;
+  font-weight: 600;
+  color: #111;
+  margin: 0 0 14px;
+}
+
+.public-product-description {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.public-product-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.public-product-tag {
+  background: #f0f0f0;
+  color: #555;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.public-product-stock {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.public-product-stock.in-stock {
+  color: green;
+}
+
+.public-product-stock.out-of-stock {
+  color: #e74c3c;
+}
+
+.public-product-reviews-section {
+  border-top: 1px solid #eee;
+  padding-top: 24px;
+}
+
+.public-product-reviews-link {
+  display: inline-block;
+  margin-bottom: 16px;
+  background: #333;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.public-product-reviews-link:hover {
+  background: #000;
+}

@@ -73,12 +73,12 @@ export const router = createBrowserRouter([
               {
                 element: <RequireStore />,
                 children: [
-                  // { path: "dashboard", element: <DashboardHome /> },
                   { path: "dashboard/products", element: <ProductList /> },
                   { path: "dashboard/products/new", element: <ProductForm /> },
                   { path: "dashboard/products/:productId/edit", element: <ProductForm /> },
                   { path: "dashboard/orders", element: <OrderList /> },
                   { path: "dashboard/orders/:orderId", element: <OrderDetails /> },
+                  { path: "dashboard/reviews", element: <ReviewList /> },
                   { path: "dashboard/products/:productId/reviews", element: <ReviewList /> },
                 ],
               },

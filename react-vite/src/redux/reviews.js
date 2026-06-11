@@ -45,6 +45,7 @@ export const thunkCreateReview = (reviewData) => async (dispatch) => {
   const response = await fetch(`/api/reviews`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials: "include",
     body: JSON.stringify(reviewData)
   });
 
@@ -62,6 +63,7 @@ export const thunkUpdateReview = (id, reviewData) => async (dispatch) => {
   const response = await fetch(`/api/reviews/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
+    credentials: "include",
     body: JSON.stringify(reviewData)
   });
 
@@ -77,7 +79,8 @@ export const thunkUpdateReview = (id, reviewData) => async (dispatch) => {
 
 export const thunkDeleteReview = (id) => async (dispatch) => {
   const response = await fetch(`/api/reviews/${id}`, {
-    method: "DELETE"
+    method: "DELETE",
+    credentials: "include"
   });
 
   if (response.ok) {

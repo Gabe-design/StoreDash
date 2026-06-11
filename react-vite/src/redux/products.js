@@ -42,7 +42,7 @@ const removeProduct = (productId) => ({
 // Thunks
 export const thunkGetProducts = () => async (dispatch) => {
   // This will fetch the products from the server
-  const response = await fetch("/api/products");
+  const response = await fetch("/api/products", { credentials: "include" });
 
   if (response.ok) {
     const data = await response.json();
